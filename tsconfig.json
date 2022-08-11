@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "declaration": true,
+    "alwaysStrict": true,
+    "allowJs": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "allowSyntheticDefaultImports": true,
+
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": false,
+    "lib": ["es2015", "dom"],
+
+    "types": ["aseprite-loader"],
+    "typeRoots": ["./src/overrides.d.ts"]
+  }
+}
