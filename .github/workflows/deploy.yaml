@@ -1,0 +1,27 @@
+name: deploy
+
+on:
+  workflow_dispatch: # allow manual trigger
+  pull_request:      # on pull request changes
+  push:
+    branches: [main] # on commits to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2.5.1
+        with: { node-version: 16.x }
+      - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn run build
+
+      - uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }} # skip if not on main branch
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
