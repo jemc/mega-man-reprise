@@ -11,6 +11,12 @@ module.exports = merge.merge(common, {
     compress: true,
     port: 8000,
   },
+  // Don't snapshot-cache the glazejs package.
+  // Sometimes we want to make small changes to it
+  // to test things and trigger a live reload.
+  snapshot: {
+    managedPaths: [/^(.+?[\\/]node_modules)[\\/]((?!glazejs)).*[\\/]*/],
+  },
   plugins: [
     new webpack.DefinePlugin({
       __IN_DEBUG__: JSON.stringify(true),
