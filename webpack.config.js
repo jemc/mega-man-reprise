@@ -1,4 +1,5 @@
 "use strict"
+const path = require("path")
 
 module.exports = {
   entry: "./src/index.ts",
@@ -28,6 +29,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
+    alias: {
+      glaze: path.resolve(__dirname, "node_modules/glazejs/src/glaze"),
+    },
   },
   performance: {
     hints: false,

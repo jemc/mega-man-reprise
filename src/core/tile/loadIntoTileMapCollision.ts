@@ -1,6 +1,6 @@
-import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase/TileMapCollision"
-import { Bytes2D } from "glazejs/src/glaze/ds/Bytes2D"
-import { GZE } from "glazejs/src/glaze/GZE"
+import { TileMapCollision } from "glaze/physics/collision/broadphase/TileMapCollision"
+import { Bytes2D } from "glaze/ds/Bytes2D"
+import { GZE } from "glaze/GZE"
 
 export default function loadIntoTileMapCollision(
   aseMapData: AsepriteLoader.Data,

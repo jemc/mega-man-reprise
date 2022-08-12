@@ -1,7 +1,7 @@
-import { Bytes2D } from "glazejs/src/glaze/ds/Bytes2D"
-import { TileMapRenderer } from "glazejs/src/glaze/graphics/render/tile/TileMapRenderer"
-import { BaseTexture } from "glazejs/src/glaze/graphics/texture/BaseTexture"
-import { LayerToCoordTexture } from "glazejs/src/glaze/tmx/TMXMap"
+import { Bytes2D } from "glaze/ds/Bytes2D"
+import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
+import { BaseTexture } from "glaze/graphics/texture/BaseTexture"
+import { LayerToCoordTexture } from "glaze/tmx/TMXMap"
 
 export default function loadIntoTileMapRenderer(
   aseMapData: AsepriteLoader.Data,

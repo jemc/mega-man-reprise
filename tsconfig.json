@@ -23,6 +23,11 @@
     "lib": ["es2015", "dom"],
 
     "types": ["aseprite-loader"],
-    "typeRoots": ["./src/overrides.d.ts"]
-  }
+    "typeRoots": ["./src/overrides.d.ts"],
+
+    "baseUrl": "./",
+    "paths": {
+      "glaze/*": ["node_modules/glazejs/src/glaze/*"]
+    }
+  },
 }

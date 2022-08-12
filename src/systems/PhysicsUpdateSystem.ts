@@ -5,12 +5,12 @@
 // TODO: Remove this file when the bug fix PR is merged:
 // https://github.com/rjewson/glazejs/pull/23
 
-import { System } from "glazejs/src/glaze/ecs/System"
-import { Vector2 } from "glazejs/src/glaze/geom/Vector2"
-import { Position } from "glazejs/src/glaze/core/components/Position"
-import { PhysicsBody } from "glazejs/src/glaze/physics/components/PhysicsBody"
-import { Active } from "glazejs/src/glaze/core/components/Active"
-import { Entity } from "glazejs/src/glaze/ecs/Entity"
+import { System } from "glaze/ecs/System"
+import { Vector2 } from "glaze/geom/Vector2"
+import { Position } from "glaze/core/components/Position"
+import { PhysicsBody } from "glaze/physics/components/PhysicsBody"
+import { Active } from "glaze/core/components/Active"
+import { Entity } from "glaze/ecs/Entity"
 
 export default class PhysicsUpdateSystem extends System {
   public globalForce: Vector2
