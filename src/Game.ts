@@ -1,5 +1,4 @@
 import { AABB2 } from "glaze/geom/AABB2"
-import { AnimationSystem } from "glaze/graphics/systems/AnimationSystem"
 import { Camera } from "glaze/graphics/displaylist/Camera"
 import { DigitalInput } from "glaze/util/DigitalInput"
 import { DynamicTreeBroadphase } from "glaze/physics/collision/broadphase/DynamicTreeBroadphase"
@@ -24,6 +23,7 @@ import { Vector2 } from "glaze/geom/Vector2"
 
 import { PlayerFactory } from "./factories/PlayerFactory"
 import { PlayerSystem } from "./systems/PlayerSystem"
+import { AnimationSystem } from "./systems/AnimationSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import loadIntoTileMapRenderer from "./core/tile/loadIntoTileMapRenderer"

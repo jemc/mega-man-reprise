@@ -6,13 +6,13 @@ import { Position } from "glaze/core/components/Position"
 import { Extents } from "glaze/core/components/Extents"
 import { PhysicsCollision } from "glaze/physics/components/PhysicsCollision"
 import { PhysicsBody } from "glaze/physics/components/PhysicsBody"
-import { GraphicsAnimation } from "glaze/graphics/components/GraphicsAnimation"
 import { Vector2 } from "glaze/geom/Vector2"
 import { Key } from "glaze/util/Keycodes"
 import { AABB2 } from "glaze/geom/AABB2"
 import { GZE } from "glaze/GZE"
 
 import { Player } from "../components/Player"
+import GraphicsAnimation from "../components/GraphicsAnimation"
 
 export class PlayerSystem extends System {
   private input: DigitalInput
@@ -188,11 +188,23 @@ export class PlayerSystem extends System {
       physicsBody.body.onGround &&
       Math.abs(physicsBody.body.velocity.x) > 50
     ) {
-      if (player.isShootingNow(this.timestamp) || shootHold) {
-        graphicsAnimation.play("walk-shoot")
-      } else {
-        graphicsAnimation.play("walk")
-      }
+      // If already walking, set the animation ID instead of calling `play`,
+      // so that changing to walk-shoot won't start at the first frame of the
+      // animation, but will rather switch seamlessly to the same frame in
+      // the other animation as it was about to use in the current animation.
+      //
+      // This prevents an issue where tapping shoot quickly while walking
+      // would keep the character stuck at the first frame of the animation,
+      // making it look like they were skating while shooting, instead of
+      // walking while shooting as they are supposed to be.
+      const alreadyWalking = graphicsAnimation.animationId.startsWith("walk")
+      const newWalk =
+        player.isShootingNow(this.timestamp) || shootHold
+          ? "walk-shoot"
+          : "walk"
+      graphicsAnimation.play(newWalk, {
+        shouldNotResetTime: alreadyWalking,
+      })
     } else if (
       physicsBody.body.onGround &&
       Math.abs(physicsBody.body.velocity.x) > 1 &&

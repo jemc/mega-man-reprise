@@ -5,7 +5,6 @@ import { Body } from "glaze/physics/Body"
 import { Material } from "glaze/physics/Material"
 import { Extents } from "glaze/core/components/Extents"
 import { Graphics } from "glaze/graphics/components/Graphics"
-import { GraphicsAnimation } from "glaze/graphics/components/GraphicsAnimation"
 import { PhysicsBody } from "glaze/physics/components/PhysicsBody"
 import { PhysicsCollision } from "glaze/physics/components/PhysicsCollision"
 import { Moveable } from "glaze/core/components/Moveable"
@@ -15,6 +14,7 @@ import { Position } from "glaze/core/components/Position"
 import { TestFilters } from "glaze/../test/config/Filters"
 
 import { Player } from "../components/Player"
+import GraphicsAnimation from "../components/GraphicsAnimation"
 
 export class PlayerFactory {
   static create(engine: Engine, position: Position): Entity {
