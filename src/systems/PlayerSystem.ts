@@ -76,16 +76,24 @@ export class PlayerSystem extends System {
       physicsBody.body.material.friction = 0
     else physicsBody.body.material.friction = 0.2
 
-    // A jump can be initiated when starting from the ground
+    // A jump can be initiated when starting from the ground.
     if (physicsBody.body.onGround && jumpStart) {
+      // Holding down and pressing jump will start a slide instead of a jump.
       if (down) {
+        // A slide can't be initiated while already sliding -
+        // doing so would allow infinite sliding without standing up.
         if (!player.isSliding) {
           player.startSliding(this.timestamp)
           physicsBody.body.addProportionalForce(new Vector2(0, 100))
         }
       } else {
-        physicsBody.body.addProportionalForce(new Vector2(0, -100))
-        player.stopSliding() // jumping can cancel a slide
+        // A jump can't be initiated when sliding under a low ceiling.
+        const slidingUnderALowCeiling =
+          player.isSliding && this.isPlayerUnderALowCeiling(position.coords)
+        if (!slidingUnderALowCeiling) {
+          physicsBody.body.addProportionalForce(new Vector2(0, -100))
+          player.stopSliding() // jumping can cancel a slide
+        }
       }
     }
 
