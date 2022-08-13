@@ -40,8 +40,11 @@ const PLAYER_SPRITES_FRAMES_CONFIG: string = "data/PlayerSpritesFrames.json"
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
 
-  constructor(canvas: RenderCanvas, input: DigitalInput) {
+  constructor(canvas: HTMLCanvasElement, input: DigitalInput) {
     super(canvas, input)
+
+    canvas.style.width = `${GZE.resolution.x * 2}px`
+    canvas.style.height = `${GZE.resolution.y * 2}px`
 
     this.loadAssets([
       PLAYER_SPRITES_CONFIG,
