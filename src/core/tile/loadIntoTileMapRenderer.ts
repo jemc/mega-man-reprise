@@ -64,7 +64,7 @@ class TileMapLoader {
       throw new Error(
         `Aseprite data has no layer with name '${layerName}' in frame zero`,
       )
-    if (!tilesetIndex)
+    if (tilesetIndex === undefined)
       throw new Error(`Aseprite layer '${layerName}' is has no tile set`)
 
     return [cel, tilesetIndex]
