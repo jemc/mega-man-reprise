@@ -34,10 +34,15 @@ monkeyPatchAssetLoaderPrototype()
 
 GZE.resolution = new Vector2(512, 480) // NES resolution * 2
 
-const PLAYER_SPRITES_CONFIG: string = "data/PlayerSprites.json"
-const PLAYER_SPRITES_DATA: string = "data/PlayerSprites.png"
-const PLAYER_SPRITES_FRAMES_CONFIG: string = "data/PlayerSpritesFrames.json"
-const TEST_LEVEL_DATA: string = "data/levels/TestLevel.aseprite"
+const URL_PARAMS = new URLSearchParams(window.location.search)
+
+const PLAYER_SPRITES_CONFIG = "data/PlayerSprites.json"
+const PLAYER_SPRITES_DATA = "data/PlayerSprites.png"
+const PLAYER_SPRITES_FRAMES_CONFIG = "data/PlayerSpritesFrames.json"
+
+const TEST_LEVEL_DATA = `data/levels/${
+  URL_PARAMS.get("level") || "TestLevel"
+}.aseprite`
 
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
