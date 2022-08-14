@@ -23,7 +23,7 @@ import Aseprite from "ase-parser"
 
 import { PlayerFactory } from "./factories/PlayerFactory"
 import { PlayerSystem } from "./systems/PlayerSystem"
-import { AnimationSystem } from "./systems/AnimationSystem"
+import AnimationSystem from "./systems/AnimationSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import loadIntoTileMapRenderer from "./core/tile/loadIntoTileMapRenderer"
