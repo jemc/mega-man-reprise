@@ -50,9 +50,13 @@ export class PlayerSystem extends System {
     physicsBody: PhysicsBody,
     graphicsAnimation: GraphicsAnimation,
   ) {
-    let left = this.input.Pressed(Key.LeftArrow)
-    let right = this.input.Pressed(Key.RightArrow)
-    const down = this.input.Pressed(Key.DownArrow)
+    let left =
+      this.input.Pressed(Key.LeftArrow) || this.input.Pressed(Key.Comma)
+    let right =
+      this.input.Pressed(Key.RightArrow) || this.input.Pressed(Key.ForwardSlash)
+    const down =
+      this.input.Pressed(Key.DownArrow) || this.input.Pressed(Key.Period)
+
     const jumpStart = this.input.JustPressed(Key.G)
     const jumpHold = this.input.Pressed(Key.G)
     const shootNow = this.input.JustPressed(Key.R)
