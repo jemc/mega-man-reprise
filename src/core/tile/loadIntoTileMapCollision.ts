@@ -1,10 +1,9 @@
+import Aseprite from "ase-parser"
 import { TileMapCollision } from "glaze/physics/collision/broadphase/TileMapCollision"
 import { Bytes2D } from "glaze/ds/Bytes2D"
 import { GZE } from "glaze/GZE"
 
-export default function loadIntoTileMapCollision(
-  aseMapData: AsepriteLoader.Data,
-) {
+export default function loadIntoTileMapCollision(aseMapData: Aseprite) {
   // TODO: Don't hard-code the 1 index
   const aseMapCel = aseMapData.frames[0].cels[1]
   const collisionData = new Bytes2D(

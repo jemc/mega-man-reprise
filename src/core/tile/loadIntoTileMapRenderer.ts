@@ -1,10 +1,11 @@
+import Aseprite from "ase-parser"
 import { Bytes2D } from "glaze/ds/Bytes2D"
 import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { BaseTexture } from "glaze/graphics/texture/BaseTexture"
 import { LayerToCoordTexture } from "glaze/tmx/TMXMap"
 
 export default function loadIntoTileMapRenderer(
-  aseMapData: AsepriteLoader.Data,
+  aseMapData: Aseprite,
   tileMapRenderer: TileMapRenderer,
 ) {
   if (aseMapData.colorDepth !== 32)
@@ -39,7 +40,7 @@ export default function loadIntoTileMapRenderer(
   )
 }
 
-function convertAseTileSetToImageData(aseTileset: AsepriteLoader.Tileset) {
+function convertAseTileSetToImageData(aseTileset: Aseprite.Tileset) {
   if (!aseTileset.rawTilesetData)
     throw new Error("external file Aseprite tileset not yet implemented")
 
@@ -75,7 +76,7 @@ function convertAseTileSetToImageData(aseTileset: AsepriteLoader.Tileset) {
 }
 
 function asepriteTilemapLayerForRendering(
-  aseData: AsepriteLoader.Data,
+  aseData: Aseprite,
   layerName: string,
 ) {
   // Find the cel in frame zero associated with the right layer.

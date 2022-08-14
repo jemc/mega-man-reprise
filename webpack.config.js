@@ -1,4 +1,5 @@
 "use strict"
+const webpack = require("webpack")
 const path = require("path")
 
 module.exports = {
@@ -18,10 +19,6 @@ module.exports = {
         loader: "ts-shader-loader",
       },
       {
-        test: /\.ase(prite)?$/i,
-        loader: "aseprite-loader",
-      },
-      {
         test: /\.worker\.js$/,
         use: { loader: "worker-loader" },
       },
@@ -32,6 +29,12 @@ module.exports = {
     alias: {
       glaze: path.resolve(__dirname, "node_modules/glazejs/src/glaze"),
     },
+    fallback: {
+      zlib: require.resolve("browserify-zlib"),
+      stream: require.resolve("stream-browserify"),
+      assert: require.resolve("assert-browserify"),
+      buffer: require.resolve("buffer"),
+    },
   },
   performance: {
     hints: false,
@@ -41,4 +44,12 @@ module.exports = {
     removeEmptyChunks: false,
     splitChunks: false,
   },
+  plugins: [
+    // We import some NodeJS-oriented code that expects certain global variables
+    // to be present, so we use this plugin to provide those from libraries.
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
 }

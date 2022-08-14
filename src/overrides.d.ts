@@ -1,5 +1,5 @@
-// When a `.aseprite` file is imported, use the correct type.
-declare module "*.aseprite" {
-  const data: AsepriteLoader.Data
-  export default data
+// Help TypeScript find the declarations for the ase-parser library.
+declare module "ase-parser" {
+  import Aseprite from "ase-parser/typings/Aseprite"
+  export = Aseprite
 }

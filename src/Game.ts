@@ -14,12 +14,12 @@ import { PhysicsPositionSystem } from "glaze/physics/systems/PhysicsPositionSyst
 import { PhysicsStaticSystem } from "glaze/physics/systems/PhysicsStaticSystem"
 import { Position } from "glaze/core/components/Position"
 import { PostContactManager } from "glaze/physics/collision/contact/PostContactManager"
-import { RenderCanvas } from "glaze/types"
 import { SpriteRenderer } from "glaze/graphics/render/sprite/SpriteRenderer"
 import { StateSystem } from "glaze/core/systems/StateSystem"
 import { StateUpdateSystem } from "glaze/core/systems/StateUpdateSystem"
 import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { Vector2 } from "glaze/geom/Vector2"
+import Aseprite from "ase-parser"
 
 import { PlayerFactory } from "./factories/PlayerFactory"
 import { PlayerSystem } from "./systems/PlayerSystem"
@@ -29,13 +29,15 @@ import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import loadIntoTileMapRenderer from "./core/tile/loadIntoTileMapRenderer"
 import loadIntoTileMapCollision from "./core/tile/loadIntoTileMapCollision"
 
-import aseTileMap from "./levels/TestLevel.aseprite"
+import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
+monkeyPatchAssetLoaderPrototype()
 
 GZE.resolution = new Vector2(512, 480) // NES resolution * 2
 
 const PLAYER_SPRITES_CONFIG: string = "data/PlayerSprites.json"
 const PLAYER_SPRITES_DATA: string = "data/PlayerSprites.png"
 const PLAYER_SPRITES_FRAMES_CONFIG: string = "data/PlayerSpritesFrames.json"
+const TEST_LEVEL_DATA: string = "data/levels/TestLevel.aseprite"
 
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
@@ -50,6 +52,7 @@ export default class Game extends GlazeEngine {
       PLAYER_SPRITES_CONFIG,
       PLAYER_SPRITES_DATA,
       PLAYER_SPRITES_FRAMES_CONFIG,
+      TEST_LEVEL_DATA,
     ])
   }
 
@@ -68,6 +71,7 @@ export default class Game extends GlazeEngine {
     this.engine.addPhase(corePhase)
 
     const messageBus = new MessageBus()
+    const aseTileMap: Aseprite = this.assets.assets.get(TEST_LEVEL_DATA)
     const tileMapCollision = loadIntoTileMapCollision(aseTileMap)
     const broadphase = new DynamicTreeBroadphase(tileMapCollision)
     const contactManager = new PostContactManager()
@@ -89,6 +93,8 @@ export default class Game extends GlazeEngine {
   setupRenderPhase() {
     const renderPhase = new Phase()
     this.engine.addPhase(renderPhase)
+
+    const aseTileMap: Aseprite = this.assets.assets.get(TEST_LEVEL_DATA)
 
     const camera = new Camera()
     camera.worldExtentsAABB = new AABB2(

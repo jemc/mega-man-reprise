@@ -22,7 +22,7 @@
     "esModuleInterop": false,
     "lib": ["es2015", "dom"],
 
-    "types": ["aseprite-loader"],
+    "types": ["node"],
     "typeRoots": ["./src/overrides.d.ts"],
 
     "baseUrl": "./",
