@@ -26,9 +26,8 @@
     "types": ["node"],
     "typeRoots": ["./src/overrides.d.ts"],
 
-    "baseUrl": "./",
     "paths": {
-      "glaze/*": ["node_modules/glazejs/src/glaze/*"]
+      "glaze/*": ["./node_modules/glazejs/src/glaze/*"]
     }
   },
 }
