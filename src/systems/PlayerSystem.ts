@@ -13,6 +13,8 @@ import { GZE } from "glaze/GZE"
 
 import { Player } from "../components/Player"
 import GraphicsAnimation from "../components/GraphicsAnimation"
+import Climber from "../components/Climber"
+import Climbing from "../components/Climbing"
 
 export class PlayerSystem extends System {
   private input: DigitalInput
@@ -26,6 +28,7 @@ export class PlayerSystem extends System {
       PhysicsCollision,
       PhysicsBody,
       GraphicsAnimation,
+      Climber,
     ])
     this.input = input
     this.tileMap = tileMap
@@ -39,6 +42,7 @@ export class PlayerSystem extends System {
     physicsCollision: PhysicsCollision,
     physicsBody: PhysicsBody,
     graphicsAnimation: GraphicsAnimation,
+    climber: Climber,
   ) {}
 
   updateEntity(
@@ -49,23 +53,34 @@ export class PlayerSystem extends System {
     physicsCollision: PhysicsCollision,
     physicsBody: PhysicsBody,
     graphicsAnimation: GraphicsAnimation,
+    climber: Climber,
   ) {
     let left =
       this.input.Pressed(Key.LeftArrow) || this.input.Pressed(Key.Comma)
     let right =
       this.input.Pressed(Key.RightArrow) || this.input.Pressed(Key.ForwardSlash)
-    const down =
+    let down =
       this.input.Pressed(Key.DownArrow) || this.input.Pressed(Key.Period)
+    let up = this.input.Pressed(Key.UpArrow) || this.input.Pressed(Key.L)
 
     const jumpStart = this.input.JustPressed(Key.G)
     const jumpHold = this.input.Pressed(Key.G)
     const shootNow = this.input.JustPressed(Key.R)
     const shootHold = this.input.Pressed(Key.R)
 
-    // Holding both horizontal directions at once cancels them.
+    let climbing: Climbing | null = this.engine.getComponentForEntity(
+      entity,
+      Climbing,
+    )
+
+    // Holding opposite directions at once cancels them.
     if (left && right) {
       left = false
       right = false
+    }
+    if (up && down) {
+      up = false
+      down = false
     }
 
     // When walking on the ground, disable the effects of friction on movement.
@@ -81,7 +96,7 @@ export class PlayerSystem extends System {
     else physicsBody.body.material.friction = 0.2
 
     // A jump can be initiated when starting from the ground.
-    if (physicsBody.body.onGround && jumpStart) {
+    if (jumpStart && physicsBody.body.onGround) {
       // Holding down and pressing jump will start a slide instead of a jump.
       if (down) {
         // A slide can't be initiated while already sliding -
@@ -99,6 +114,11 @@ export class PlayerSystem extends System {
           player.stopSliding() // jumping can cancel a slide
         }
       }
+    }
+    // A jump while climbing cancels the climb.
+    else if (jumpStart && climbing) {
+      this.engine.removeComponentsFromEntityByType(entity, [Climbing])
+      climbing = null
     }
 
     // If already sliding for a while, the slide should stop,
@@ -185,8 +205,31 @@ export class PlayerSystem extends System {
       physicsBody.body.maxVelocity.setTo(160, 630)
     }
 
+    // Up and down arrows can imply wanting to climb up or down.
+    climber.wantsUp = up && !shootHold && !player.isSliding
+    climber.wantsDown = down && !shootHold && !player.isSliding
+
+    // Climbing down onto a floor cancels the climb.
+    if (climber.wantsDown && this.isPlayerAboveAFloor(position.coords)) {
+      this.engine.removeComponentsFromEntityByType(entity, [Climbing])
+      climbing = null
+    }
+
     // Update the shown animation based on current state.
-    if (player.isSliding) {
+    if (climbing) {
+      if (shootHold || player.isShootingNow(this.timestamp)) {
+        graphicsAnimation.play("climb-shoot")
+      } else if (climbing.isNearTheTop) {
+        graphicsAnimation.play("climb-top")
+      } else if (
+        (1024 + climbing.offset.y) % (GZE.tileSize * 4) <
+        GZE.tileSize * 2
+      ) {
+        graphicsAnimation.play("climb")
+      } else {
+        graphicsAnimation.play("climb-alt")
+      }
+    } else if (player.isSliding) {
       graphicsAnimation.play("slide")
     } else if (
       physicsBody.body.onGround &&
@@ -236,7 +279,7 @@ export class PlayerSystem extends System {
   }
 
   private isPlayerUnderALowCeilingAABB2 = new AABB2()
-  isPlayerUnderALowCeiling(position: Vector2) {
+  private isPlayerUnderALowCeiling(position: Vector2) {
     const checkBounds = this.isPlayerUnderALowCeilingAABB2
     checkBounds.l = position.x - GZE.tileSize * 0.45
     checkBounds.r = position.x + GZE.tileSize * 0.45
@@ -248,5 +291,20 @@ export class PlayerSystem extends System {
       isUnderALowCeiling = true
     })
     return isUnderALowCeiling
+  }
+
+  private isPlayerAboveAFloorAABB2 = new AABB2()
+  private isPlayerAboveAFloor(position: Vector2) {
+    const checkBounds = this.isPlayerAboveAFloorAABB2
+    checkBounds.l = position.x - GZE.tileSize * 0.45
+    checkBounds.r = position.x + GZE.tileSize * 0.45
+    checkBounds.t = position.y + GZE.tileSize * 0.55
+    checkBounds.b = position.y + GZE.tileSize * 1.45
+
+    let isAboveAFloor = false
+    this.tileMap.iterateCells(checkBounds, () => {
+      isAboveAFloor = true
+    })
+    return isAboveAFloor
   }
 }

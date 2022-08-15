@@ -2,6 +2,7 @@ import { AABB2 } from "glaze/geom/AABB2"
 import { Camera } from "glaze/graphics/displaylist/Camera"
 import { DigitalInput } from "glaze/util/DigitalInput"
 import { DynamicTreeBroadphase } from "glaze/physics/collision/broadphase/DynamicTreeBroadphase"
+import { Extents } from "glazejs/src/glaze/core/components/Extents"
 import { GlazeEngine } from "glaze/GlazeEngine"
 import { GraphicsRenderSystem } from "glaze/graphics/systems/GraphicsRenderSystem"
 import { GZE } from "glaze/GZE"
@@ -23,6 +24,9 @@ import Aseprite from "ase-parser"
 
 import { PlayerFactory } from "./factories/PlayerFactory"
 import { PlayerSystem } from "./systems/PlayerSystem"
+import { LadderFactory } from "./factories/LadderFactory"
+import ClimbableSystem from "./systems/ClimbableSystem"
+import ClimbSystem from "./systems/ClimbSystem"
 import AnimationSystem from "./systems/AnimationSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
@@ -67,6 +71,7 @@ export default class Game extends GlazeEngine {
     this.setupCorePhase()
     this.setupRenderPhase()
     this.createPlayer()
+    this.createLadder()
 
     this.loop.start()
   }
@@ -90,6 +95,8 @@ export default class Game extends GlazeEngine {
     corePhase.addSystem(new PhysicsPositionSystem())
 
     corePhase.addSystem(new PlayerSystem(this.input, tileMapCollision))
+    corePhase.addSystem(new ClimbableSystem())
+    corePhase.addSystem(new ClimbSystem())
 
     corePhase.addSystem(new StateSystem())
     corePhase.addSystem(new StateUpdateSystem(messageBus))
@@ -153,13 +160,24 @@ export default class Game extends GlazeEngine {
       this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
     )
 
-    const playerPosition = this.mapPosition(22, 6)
+    const playerPosition = this.mapPosition(11, 3)
     PlayerFactory.create(this.engine, playerPosition)
     this.renderSystem.cameraTarget = playerPosition.coords
   }
 
+  createLadder() {
+    LadderFactory.create(
+      this.engine,
+      this.mapPosition(11, 7),
+      new Extents(GZE.tileSize, GZE.tileSize * 7),
+    )
+  }
+
   mapPosition(xTiles: number, yTiles: number): Position {
-    return new Position(xTiles * GZE.tileSize, yTiles * GZE.tileSize)
+    return new Position(
+      xTiles * GZE.tileSize * 2 + GZE.tileSize,
+      yTiles * GZE.tileSize * 2 + GZE.tileSize,
+    )
   }
 
   preUpdate() {
