@@ -90,7 +90,7 @@ export default class ClimbSystem extends System {
       if (climbing.isOffTheTop(extents)) return this.cancelClimbing(entity)
     } else if (climber.wantsDown) {
       climbing.offset.y += climber.config.climbSpeed * (this.dt / 1000)
-      if (climbing.isOffTheBottom) return this.cancelClimbing(entity)
+      if (climbing.isOffTheBottom(extents)) return this.cancelClimbing(entity)
     }
 
     const { absoluteX, absoluteY } = climbing

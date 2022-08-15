@@ -2,6 +2,7 @@ import { Entity } from "glazejs/src/glaze/ecs/Entity"
 import { Position } from "glazejs/src/glaze/core/components/Position"
 import { Extents } from "glazejs/src/glaze/core/components/Extents"
 import { Vector2 } from "glazejs/src/glaze/geom/Vector2"
+import { GZE } from "glazejs/src/glaze/GZE"
 
 // The Climbing component is attached to anything that is currently climbing.
 export default class Climbing {
@@ -42,8 +43,14 @@ export default class Climbing {
     )
   }
 
-  // True when the climber's center is beyond the bototm edge of the climbable.
-  get isOffTheBottom() {
-    return this.offset.y > this.climbable[2].halfWidths.y
+  // True when the nearly all the climber's extents are below the climbable.
+  // We do "nearly" so that we target the "last rung" of a ladder-like object.
+  isOffTheBottom(climberExtents: Extents) {
+    return (
+      this.offset.y >
+      this.climbable[2].halfWidths.y +
+        climberExtents.halfWidths.y -
+        GZE.tileSize / 2
+    )
   }
 }
