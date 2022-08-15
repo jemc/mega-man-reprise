@@ -74,11 +74,11 @@
 },
 "player/etude/climb.png": {
   "frame": {"x":171,"y":160,"w":16,"h":30},
-  "pivot": {"x":0.375,"y":0.36666666}
+  "pivot": {"x":0.4375,"y":0.36666666}
 },
 "player/etude/climb-shoot.png": {
   "frame": {"x":187,"y":160,"w":25,"h":30},
-  "pivot": {"x":0.32,"y":0.36666666}
+  "pivot": {"x":0.36,"y":0.36666666}
 },
 "player/etude/shoot.png": {
   "frame": {"x":0,"y":184,"w":29,"h":24},
