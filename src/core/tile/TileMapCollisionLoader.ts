@@ -131,7 +131,10 @@ export default class TileMapCollisionLoader {
             ladderTopX * GZE.tileSize * 2 + GZE.tileSize,
             (ladderTopY + ladderHeight / 2) * GZE.tileSize * 2,
           ),
-          new Extents(GZE.tileSize, ladderHeight * GZE.tileSize),
+          new Extents(
+            GZE.tileSize,
+            ladderHeight * GZE.tileSize + 2, // add 2 so that extents go just past the actual ladder above and below
+          ),
         ])
       }
 

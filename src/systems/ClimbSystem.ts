@@ -74,6 +74,39 @@ export default class ClimbSystem extends System {
         active,
       )
     }
+
+    // Otherwise, check if the climber is at the top wanting to come down.
+    if (climber.wantsDown && climber.nearClimbable) {
+      const [climbableEntity, climbablePosition, climbableExtents] =
+        climber.nearClimbable
+
+      // If the climbable area is not at the top, ignore the case.
+      const climbOffsetX = position.coords.x - climbablePosition.coords.x
+      const climbOffsetY = position.coords.y - climbablePosition.coords.y
+      const climbOffsetYFromTop =
+        climbOffsetY + extents.halfWidths.y + climbableExtents.halfWidths.y
+      if (
+        Math.abs(climbOffsetX) > climbableExtents.halfWidths.x ||
+        Math.abs(climbOffsetYFromTop) > 2
+      )
+        return
+
+      // Attach the climber to the entity it is climbing, at the right offset.
+      const climbing = new Climbing(climber.nearClimbable)
+      climbing.offset.setTo(0, climbOffsetY)
+      this.engine.addComponentsToEntity(entity, [climbing])
+
+      // Finish updating the climbing logic.
+      return this.updateClimbingEntity(
+        entity,
+        climbing,
+        climber,
+        position,
+        extents,
+        physicsBody,
+        active,
+      )
+    }
   }
 
   private updateClimbingEntity(
