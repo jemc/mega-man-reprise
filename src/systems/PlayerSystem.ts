@@ -93,7 +93,7 @@ export class PlayerSystem extends System {
     // TODO: Add the possibility of slippery ice-like friction.
     if (physicsBody.body.onGround && (left || right))
       physicsBody.body.material.friction = 0
-    else physicsBody.body.material.friction = 0.2
+    else physicsBody.body.material.friction = player.config.stopFriction
 
     // A jump can be initiated when starting from the ground.
     if (jumpStart && physicsBody.body.onGround) {
@@ -125,7 +125,8 @@ export class PlayerSystem extends System {
     // unless the player's head is directly under a tile
     if (
       player.startedSlidingAt &&
-      player.startedSlidingAt <= this.timestamp - 500 &&
+      player.startedSlidingAt <=
+        this.timestamp - player.config.slideDurationMillis &&
       !this.isPlayerUnderALowCeiling(position.coords)
     ) {
       player.stopSliding()
@@ -170,7 +171,10 @@ export class PlayerSystem extends System {
     // making the in-universe justifying assumption that a character's size
     // is roughly proportional to their muscle system's motive force
     if (left || right) {
-      const xForceAmount = Math.abs(physicsBody.body.velocity.x) < 70 ? 0.1 : 10
+      const xForceAmount =
+        Math.abs(physicsBody.body.velocity.x) < player.config.maxStepSpeed
+          ? player.config.stepForce
+          : player.config.walkForce
       physicsBody.body.addProportionalForce(
         new Vector2(left ? xForceAmount * -1 : xForceAmount, 0),
       )
@@ -181,7 +185,7 @@ export class PlayerSystem extends System {
     // but that uses the code path above rather than this one
     // (which is why this is an `else if`)
     else if (player.isSliding) {
-      const xForceAmountSlide = 100
+      const xForceAmountSlide = player.config.slideForce
       physicsBody.body.addProportionalForce(
         new Vector2(
           position.direction.x < 0 ? xForceAmountSlide * -1 : xForceAmountSlide,
@@ -193,16 +197,22 @@ export class PlayerSystem extends System {
     // If the player is currently sliding, the bounding box becomes
     // short and wide, as opposed to its default state of tall and narrow.
     if (player.isSliding) {
-      extents.halfWidths.x = 11 // 20
+      extents.halfWidths.x = player.config.width
       extents.halfWidths.y = 15.5
       physicsCollision.proxy.aabb.extents.copy(extents.halfWidths)
-      physicsBody.body.maxVelocity.setTo(308, 630)
+      physicsBody.body.maxVelocity.setTo(
+        player.config.maxSlideSpeed,
+        player.config.maxVerticalSpeed,
+      )
     } else {
-      extents.halfWidths.x = 11
-      extents.halfWidths.y = 22
+      extents.halfWidths.x = player.config.width
+      extents.halfWidths.y = player.config.height
       extents.offset.y = 0
       physicsCollision.proxy.aabb.extents.copy(extents.halfWidths)
-      physicsBody.body.maxVelocity.setTo(160, 630)
+      physicsBody.body.maxVelocity.setTo(
+        player.config.maxWalkSpeed,
+        player.config.maxVerticalSpeed,
+      )
     }
 
     // Up and down arrows can imply wanting to climb up or down.
@@ -233,7 +243,7 @@ export class PlayerSystem extends System {
       graphicsAnimation.play("slide")
     } else if (
       physicsBody.body.onGround &&
-      Math.abs(physicsBody.body.velocity.x) > 50
+      Math.abs(physicsBody.body.velocity.x) > player.config.minWalkSpeed
     ) {
       // If already walking, set the animation ID instead of calling `play`,
       // so that changing to walk-shoot won't start at the first frame of the

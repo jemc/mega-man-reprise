@@ -23,15 +23,29 @@ export class PlayerFactory {
     playerFilter.categoryBits = TestFilters.PLAYER_CAT
     playerFilter.groupIndex = TestFilters.PLAYER_GROUP
 
-    const body = new Body(new Material(1, 0.3, 0.5))
+    const player = new Player({
+      height: 22,
+      width: 11,
+      maxVerticalSpeed: 630,
+      maxSlideSpeed: 308,
+      maxWalkSpeed: 160,
+      minWalkSpeed: 50,
+      maxStepSpeed: 70,
+      stepForce: 0.1,
+      walkForce: 10,
+      slideForce: 100,
+      slideDurationMillis: 500,
+      stopFriction: 0.2,
+    })
+
+    const body = new Body(new Material(1, 0.3, player.config.stopFriction))
     body.maxScalarVelocity = 0
-    body.maxVelocity.setTo(160, 630)
 
-    const extents = new Extents(11, 22)
+    const extents = new Extents(player.config.width, player.config.height)
 
-    const player = engine.createEntity()
-    engine.addComponentsToEntity(player, [
-      new Player(),
+    const entity = engine.createEntity()
+    engine.addComponentsToEntity(entity, [
+      player,
       position,
       extents,
       new Graphics("etude"),
@@ -45,6 +59,6 @@ export class PlayerFactory {
       }),
     ])
 
-    return player
+    return entity
   }
 }
