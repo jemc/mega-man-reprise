@@ -16,7 +16,7 @@ export class Player {
   shotAt?: number
 
   isShootingNow(timestamp: number) {
-    return this.shotAt && this.shotAt > timestamp - 100
+    return this.shotAt && this.shotAt > timestamp - 250
   }
 
   shootNow(timestamp: number) {
