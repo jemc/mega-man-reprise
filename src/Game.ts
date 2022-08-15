@@ -20,6 +20,7 @@ import { StateSystem } from "glaze/core/systems/StateSystem"
 import { StateUpdateSystem } from "glaze/core/systems/StateUpdateSystem"
 import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { Vector2 } from "glaze/geom/Vector2"
+import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase/TileMapCollision"
 import Aseprite from "ase-parser"
 
 import { PlayerFactory } from "./factories/PlayerFactory"
@@ -29,9 +30,9 @@ import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
 import AnimationSystem from "./systems/AnimationSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
+import TileMapCollisionLoader from "./core/tile/TileMapCollisionLoader"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import loadIntoTileMapRenderer from "./core/tile/loadIntoTileMapRenderer"
-import loadIntoTileMapCollision from "./core/tile/loadIntoTileMapCollision"
 
 import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
 monkeyPatchAssetLoaderPrototype()
@@ -71,7 +72,6 @@ export default class Game extends GlazeEngine {
     this.setupCorePhase()
     this.setupRenderPhase()
     this.createPlayer()
-    this.createLadder()
 
     this.loop.start()
   }
@@ -82,7 +82,13 @@ export default class Game extends GlazeEngine {
 
     const messageBus = new MessageBus()
     const aseTileMap: Aseprite = this.assets.assets.get(TEST_LEVEL_DATA)
-    const tileMapCollision = loadIntoTileMapCollision(aseTileMap)
+    const tileMapCollisionLoader = new TileMapCollisionLoader(
+      aseTileMap,
+      "Foreground",
+    )
+    const tileMapCollision = new TileMapCollision(
+      tileMapCollisionLoader.getCollisionData(),
+    )
     const broadphase = new DynamicTreeBroadphase(tileMapCollision)
     const contactManager = new PostContactManager()
 
@@ -100,6 +106,12 @@ export default class Game extends GlazeEngine {
 
     corePhase.addSystem(new StateSystem())
     corePhase.addSystem(new StateUpdateSystem(messageBus))
+
+    tileMapCollisionLoader.noticedLadders.forEach(
+      ([ladderPosition, ladderExtents]) => {
+        LadderFactory.create(this.engine, ladderPosition, ladderExtents)
+      },
+    )
   }
 
   setupRenderPhase() {
@@ -163,14 +175,6 @@ export default class Game extends GlazeEngine {
     const playerPosition = this.mapPosition(11, 3)
     PlayerFactory.create(this.engine, playerPosition)
     this.renderSystem.cameraTarget = playerPosition.coords
-  }
-
-  createLadder() {
-    LadderFactory.create(
-      this.engine,
-      this.mapPosition(11, 7),
-      new Extents(GZE.tileSize, GZE.tileSize * 7),
-    )
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {

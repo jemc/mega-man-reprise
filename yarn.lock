@@ -433,9 +433,9 @@ array-flatten@^2.1.2:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-2.1.2.tgz#24ef80a28c1a893617e2149b0c6d0d788293b099"
   integrity sha512-hNfzcOV8W4NdualtqBFPyVO+54DSJuZGY9qT4pRroB6S9e3iiido2ISIC5h9R2sPJ8H3FHCIiEnsv1lPXO3KtQ==
 
-"ase-parser@https://github.com/jemc/ase-parser":
+"ase-parser@git+https://github.com/jemc/ase-parser.git#fee55de33823086f59a4e8bd77d3708a88dceb8c":
   version "0.0.14"
-  resolved "https://github.com/jemc/ase-parser#b11bcb1481673674c4e7ddcd4142ed445569e9e0"
+  resolved "git+https://github.com/jemc/ase-parser.git#fee55de33823086f59a4e8bd77d3708a88dceb8c"
 
 assert-browserify@^2.0.0:
   version "2.0.0"

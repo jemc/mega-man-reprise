@@ -10,7 +10,7 @@
     "assert-browserify": "^2.0.0",
     "stream-browserify": "^3.0.0",
     "browserify-zlib": "^0.2.0",
-    "ase-parser": "https://github.com/jemc/ase-parser",
+    "ase-parser": "git+https://github.com/jemc/ase-parser.git#fee55de33823086f59a4e8bd77d3708a88dceb8c",
     "glazejs": "https://github.com/rjewson/glazejs"
   },
   "devDependencies": {
