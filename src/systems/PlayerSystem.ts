@@ -119,6 +119,17 @@ export class PlayerSystem extends System {
     else if (jumpStart && climbing) {
       this.engine.removeComponentsFromEntityByType(entity, [Climbing])
       climbing = null
+      // Holding left or right while jumping from a climb gives a kick of force
+      // in that direction, helping the player accelerate more quickly
+      // than they otherwise could from a standstill velocity.
+      if (left || right) {
+        physicsBody.body.addProportionalForce(
+          new Vector2(
+            left ? -player.config.walkForce : player.config.walkForce,
+            0,
+          ),
+        )
+      }
     }
 
     // If already sliding for a while, the slide should stop,
