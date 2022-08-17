@@ -111,5 +111,21 @@
 "player/etude/slide-2.png": {
   "frame": {"x":39,"y":208,"w":37,"h":22},
   "pivot": {"x":0.54054054,"y":0.45454545}
+},
+"enemy/met1/idle.png": {
+  "frame": {"x":192,"y":240,"w":16,"h":16},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"enemy/met1/opening-1.png": {
+  "frame": {"x":208,"y":240,"w":16,"h":16},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"enemy/met1/opening-2.png": {
+  "frame": {"x":224,"y":240,"w":16,"h":16},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"enemy/met1/open.png": {
+  "frame": {"x":240,"y":240,"w":16,"h":16},
+  "pivot": {"x":0.5,"y":0.5}
 }
 }}
