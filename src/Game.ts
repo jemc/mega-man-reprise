@@ -2,7 +2,6 @@ import { AABB2 } from "glaze/geom/AABB2"
 import { Camera } from "glaze/graphics/displaylist/Camera"
 import { DigitalInput } from "glaze/util/DigitalInput"
 import { DynamicTreeBroadphase } from "glaze/physics/collision/broadphase/DynamicTreeBroadphase"
-import { Extents } from "glazejs/src/glaze/core/components/Extents"
 import { GlazeEngine } from "glaze/GlazeEngine"
 import { GraphicsRenderSystem } from "glaze/graphics/systems/GraphicsRenderSystem"
 import { GZE } from "glaze/GZE"
@@ -30,11 +29,11 @@ import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
 import AnimationSystem from "./systems/AnimationSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
-import TileMapCollisionLoader from "./core/tile/TileMapCollisionLoader"
+import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
-import loadIntoTileMapRenderer from "./core/tile/loadIntoTileMapRenderer"
 
 import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
+import SpawnFactory from "./factories/SpawnFactory"
 monkeyPatchAssetLoaderPrototype()
 
 GZE.resolution = new Vector2(512, 480) // NES resolution * 2
@@ -51,6 +50,7 @@ const TEST_LEVEL_DATA = `data/levels/${
 
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
+  private tileMap!: TileMap
 
   constructor(canvas: HTMLCanvasElement, input: DigitalInput) {
     super(canvas, input)
@@ -69,9 +69,12 @@ export default class Game extends GlazeEngine {
   initalize() {
     this.engine.addCapacityToEngine(1000)
 
+    this.tileMap = new TileMap(this.assets.assets.get(TEST_LEVEL_DATA))
+
     this.setupCorePhase()
     this.setupRenderPhase()
     this.createPlayer()
+    this.createMappedEntities()
 
     this.loop.start()
   }
@@ -81,13 +84,8 @@ export default class Game extends GlazeEngine {
     this.engine.addPhase(corePhase)
 
     const messageBus = new MessageBus()
-    const aseTileMap: Aseprite = this.assets.assets.get(TEST_LEVEL_DATA)
-    const tileMapCollisionLoader = new TileMapCollisionLoader(
-      aseTileMap,
-      "Foreground",
-    )
     const tileMapCollision = new TileMapCollision(
-      tileMapCollisionLoader.getCollisionData(),
+      this.tileMap.layer("Foreground").collisionData,
     )
     const broadphase = new DynamicTreeBroadphase(tileMapCollision)
     const contactManager = new PostContactManager()
@@ -106,12 +104,6 @@ export default class Game extends GlazeEngine {
 
     corePhase.addSystem(new StateSystem())
     corePhase.addSystem(new StateUpdateSystem(messageBus))
-
-    tileMapCollisionLoader.noticedLadders.forEach(
-      ([ladderPosition, ladderExtents]) => {
-        LadderFactory.create(this.engine, ladderPosition, ladderExtents)
-      },
-    )
   }
 
   setupRenderPhase() {
@@ -138,12 +130,14 @@ export default class Game extends GlazeEngine {
       new AnimationSystem(this.renderSystem.frameListManager),
     )
 
+    const { tileMap } = this
     const tileMapRenderer = new TileMapRenderer(16, 2)
     tileMapRenderer.SetTileRenderLayer("bg", ["Background", "Foreground"])
     tileMapRenderer.SetTileRenderLayer("fg", [])
     this.renderSystem.renderer.AddRenderer(tileMapRenderer)
     monkeyPatchTileMapRenderer(this.renderSystem.renderer.gl, tileMapRenderer)
-    loadIntoTileMapRenderer(aseTileMap, tileMapRenderer)
+    tileMap.loadLayerIntoRenderer("Foreground", tileMapRenderer, "Foreground")
+    tileMap.loadLayerIntoRenderer("Background", tileMapRenderer, "Background")
 
     const spriteRender = new SpriteRenderer()
     spriteRender.AddStage(this.renderSystem.stage)
@@ -175,6 +169,18 @@ export default class Game extends GlazeEngine {
     const playerPosition = this.mapPosition(11, 3)
     PlayerFactory.create(this.engine, playerPosition)
     this.renderSystem.cameraTarget = playerPosition.coords
+  }
+
+  createMappedEntities() {
+    const tileMapLayer = this.tileMap.layer("Foreground")
+
+    tileMapLayer.noticedLadders.forEach(([ladderPosition, ladderExtents]) => {
+      LadderFactory.create(this.engine, ladderPosition, ladderExtents)
+    })
+
+    tileMapLayer.noticedSpawns.forEach(([kind, position]) => {
+      SpawnFactory.create(this.engine, kind, position)
+    })
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {
