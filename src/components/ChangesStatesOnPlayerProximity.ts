@@ -12,5 +12,6 @@ export default class ChangesStatesOnPlayerProximity {
 
   constructor(config: ChangesStatesOnPlayerProximityConfig) {
     this.config = config
+    this.timeSoFar = 0
   }
 }
