@@ -18,7 +18,7 @@ import Climber from "../components/Climber"
 import GraphicsAnimation from "../components/GraphicsAnimation"
 
 export default class PlayerFactory {
-  static create(engine: Engine, position: Position): Entity {
+  static create(engine: Engine, entity: Entity, position: Position): Entity {
     const playerFilter = new Filter()
     playerFilter.categoryBits = TestFilters.PLAYER_CAT
     playerFilter.groupIndex = TestFilters.PLAYER_GROUP
@@ -43,7 +43,6 @@ export default class PlayerFactory {
 
     const extents = new Extents(player.config.width, player.config.height)
 
-    const entity = engine.createEntity()
     engine.addComponentsToEntity(entity, [
       player,
       position,

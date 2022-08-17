@@ -53,8 +53,10 @@ const TEST_LEVEL_DATA = `data/levels/${
 
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
+
   private tileMap!: TileMap
   private player!: Entity
+  private playerPosition!: Position
 
   constructor(canvas: HTMLCanvasElement, input: DigitalInput) {
     super(canvas, input)
@@ -74,19 +76,21 @@ export default class Game extends GlazeEngine {
     this.engine.addCapacityToEngine(1000)
 
     this.tileMap = new TileMap(this.assets.assets.get(TEST_LEVEL_DATA))
+    this.player = this.engine.createEntity("player")
+    this.playerPosition = this.mapPosition(11, 3)
 
     this.setupCorePhase()
-    this.setupRenderPhase()
-    this.createPlayer()
     this.setupReactionPhase()
+    this.setupRenderPhase()
     this.createMappedEntities()
+    this.createPlayer()
 
     this.loop.start()
   }
 
   setupCorePhase() {
-    const corePhase = new Phase()
-    this.engine.addPhase(corePhase)
+    const phase = new Phase()
+    this.engine.addPhase(phase)
 
     const tileMapCollision = new TileMapCollision(
       this.tileMap.layer("Foreground").collisionData,
@@ -94,22 +98,34 @@ export default class Game extends GlazeEngine {
     const broadphase = new DynamicTreeBroadphase(tileMapCollision)
     const contactManager = new PostContactManager()
 
-    corePhase.addSystem(new PhysicsMassSystem())
-    corePhase.addSystem(new PhysicsStaticSystem(broadphase))
-    corePhase.addSystem(new PhysicsMoveableSystem(broadphase))
+    phase.addSystem(new PhysicsMassSystem())
+    phase.addSystem(new PhysicsStaticSystem(broadphase))
+    phase.addSystem(new PhysicsMoveableSystem(broadphase))
 
-    corePhase.addSystem(new PhysicsUpdateSystem())
-    corePhase.addSystem(new PhysicsCollisionSystem(broadphase, contactManager))
-    corePhase.addSystem(new PhysicsPositionSystem())
+    phase.addSystem(new PhysicsUpdateSystem())
+    phase.addSystem(new PhysicsCollisionSystem(broadphase, contactManager))
+    phase.addSystem(new PhysicsPositionSystem())
 
-    corePhase.addSystem(new PlayerSystem(this.input, tileMapCollision))
-    corePhase.addSystem(new ClimbableSystem())
-    corePhase.addSystem(new ClimbSystem())
+    phase.addSystem(new PlayerSystem(this.input, tileMapCollision))
+  }
+
+  setupReactionPhase() {
+    const phase = new Phase()
+    this.engine.addPhase(phase)
+
+    phase.addSystem(new PlayerAwareSystem(this.player, this.playerPosition))
+    phase.addSystem(new FollowsPlayerSystem())
+
+    phase.addSystem(new ChangesStatesOnPlayerProximitySystem())
+    phase.addSystem(new ClimbableSystem())
+    phase.addSystem(new ClimbSystem())
+
+    phase.addSystem(new StatesGraphicsSystem())
   }
 
   setupRenderPhase() {
-    const renderPhase = new Phase()
-    this.engine.addPhase(renderPhase)
+    const phase = new Phase()
+    this.engine.addPhase(phase)
 
     const aseTileMap: Aseprite = this.assets.assets.get(TEST_LEVEL_DATA)
 
@@ -126,10 +142,9 @@ export default class Game extends GlazeEngine {
       camera,
       GZE.resolution,
     )
+    this.renderSystem.cameraTarget = this.playerPosition.coords
 
-    renderPhase.addSystem(
-      new AnimationSystem(this.renderSystem.frameListManager),
-    )
+    phase.addSystem(new AnimationSystem(this.renderSystem.frameListManager))
 
     const { tileMap } = this
     const tileMapRenderer = new TileMapRenderer(16, 2)
@@ -151,10 +166,9 @@ export default class Game extends GlazeEngine {
       tileMapRenderer.renderLayersMap.get("fg")!.sprite,
     )
 
-    renderPhase.addSystem(this.renderSystem)
-  }
+    phase.addSystem(this.renderSystem)
 
-  createPlayer() {
+    // Load textures.
     this.renderSystem.textureManager.AddTexture(
       PLAYER_SPRITES_DATA,
       this.assets.assets.get(PLAYER_SPRITES_DATA),
@@ -166,10 +180,10 @@ export default class Game extends GlazeEngine {
     this.renderSystem.frameListManager.ParseFrameListJSON(
       this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
     )
+  }
 
-    const playerPosition = this.mapPosition(11, 3)
-    this.player = PlayerFactory.create(this.engine, playerPosition)
-    this.renderSystem.cameraTarget = playerPosition.coords
+  createPlayer() {
+    PlayerFactory.create(this.engine, this.player, this.playerPosition)
   }
 
   createMappedEntities() {
@@ -182,16 +196,6 @@ export default class Game extends GlazeEngine {
     tileMapLayer.noticedSpawns.forEach(([kind, position]) => {
       SpawnFactory.create(this.engine, kind, position)
     })
-  }
-
-  setupReactionPhase() {
-    const phase = new Phase()
-    this.engine.addPhase(phase)
-
-    phase.addSystem(new PlayerAwareSystem(this.player))
-    phase.addSystem(new FollowsPlayerSystem())
-    phase.addSystem(new ChangesStatesOnPlayerProximitySystem())
-    phase.addSystem(new StatesGraphicsSystem())
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {
