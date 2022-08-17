@@ -7,7 +7,7 @@ import { PhysicsCollision } from "glaze/physics/components/PhysicsCollision"
 import Climbable from "../components/Climbable"
 import Climber from "../components/Climber"
 
-export default class LadderSystem extends System {
+export default class ClimbableSystem extends System {
   constructor() {
     super([Climbable, Position, Extents, PhysicsCollision])
   }
