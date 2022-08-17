@@ -4,8 +4,6 @@ import { Position } from "glaze/core/components/Position"
 
 import FollowsPlayer from "../components/FollowsPlayer"
 import PlayerAware from "../components/PlayerAware"
-import { BitVector } from "glazejs/src/glaze/ds/BitVector"
-import { Engine } from "glazejs/src/glaze/ecs/Engine"
 
 export default class FollowsPlayerSystem extends System {
   constructor() {

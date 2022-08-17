@@ -12,6 +12,8 @@ import { GZE } from "glazejs/src/glaze/GZE"
 import GraphicsAnimation from "../../components/GraphicsAnimation"
 import PlayerAware from "../../components/PlayerAware"
 import FollowsPlayer from "../../components/FollowsPlayer"
+import States from "../../components/States"
+import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlayerProximity"
 
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
@@ -34,6 +36,19 @@ export default function (engine: Engine, position: Position) {
     new FollowsPlayer({
       lookX: true,
       lookHysteresis: GZE.tileSize * 2,
+    }),
+    new States("idle", {
+      idle: { minDuration: 2000 },
+      opening: { maxDuration: 300, then: "open" },
+      open: { maxDuration: 500, then: "closing" },
+      closing: { maxDuration: 300, then: "idle" },
+    }),
+    new ChangesStatesOnPlayerProximity({
+      from: "idle",
+      to: "opening",
+      proximityX: GZE.tileSize * 6,
+      proximityY: GZE.tileSize * 4,
+      delay: 500,
     }),
   ])
 

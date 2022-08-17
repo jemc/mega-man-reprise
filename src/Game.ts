@@ -6,7 +6,6 @@ import { Entity } from "glazejs/src/glaze/ecs/Entity"
 import { GlazeEngine } from "glaze/GlazeEngine"
 import { GraphicsRenderSystem } from "glaze/graphics/systems/GraphicsRenderSystem"
 import { GZE } from "glaze/GZE"
-import { MessageBus } from "glaze/util/MessageBus"
 import { Phase } from "glaze/ecs/Phase"
 import { PhysicsCollisionSystem } from "glaze/physics/systems/PhysicsCollisionSystem"
 import { PhysicsMassSystem } from "glaze/physics/systems/PhysicsMassSystem"
@@ -16,11 +15,9 @@ import { PhysicsStaticSystem } from "glaze/physics/systems/PhysicsStaticSystem"
 import { Position } from "glaze/core/components/Position"
 import { PostContactManager } from "glaze/physics/collision/contact/PostContactManager"
 import { SpriteRenderer } from "glaze/graphics/render/sprite/SpriteRenderer"
-import { StateSystem } from "glaze/core/systems/StateSystem"
-import { StateUpdateSystem } from "glaze/core/systems/StateUpdateSystem"
+import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase/TileMapCollision"
 import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { Vector2 } from "glaze/geom/Vector2"
-import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase/TileMapCollision"
 import Aseprite from "ase-parser"
 
 import PlayerFactory from "./factories/PlayerFactory"
@@ -34,6 +31,8 @@ import ClimbSystem from "./systems/ClimbSystem"
 import FollowsPlayerSystem from "./systems/FollowsPlayerSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import PlayerAwareSystem from "./systems/PlayerAwareSystem"
+import ChangesStatesOnPlayerProximitySystem from "./systems/ChangesStatesOnPlayerProximitySystem"
+import StatesGraphicsSystem from "./systems/StatesGraphicsSystem"
 
 import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
@@ -89,7 +88,6 @@ export default class Game extends GlazeEngine {
     const corePhase = new Phase()
     this.engine.addPhase(corePhase)
 
-    const messageBus = new MessageBus()
     const tileMapCollision = new TileMapCollision(
       this.tileMap.layer("Foreground").collisionData,
     )
@@ -107,9 +105,6 @@ export default class Game extends GlazeEngine {
     corePhase.addSystem(new PlayerSystem(this.input, tileMapCollision))
     corePhase.addSystem(new ClimbableSystem())
     corePhase.addSystem(new ClimbSystem())
-
-    corePhase.addSystem(new StateSystem())
-    corePhase.addSystem(new StateUpdateSystem(messageBus))
   }
 
   setupRenderPhase() {
@@ -195,6 +190,8 @@ export default class Game extends GlazeEngine {
 
     phase.addSystem(new PlayerAwareSystem(this.player))
     phase.addSystem(new FollowsPlayerSystem())
+    phase.addSystem(new ChangesStatesOnPlayerProximitySystem())
+    phase.addSystem(new StatesGraphicsSystem())
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {
