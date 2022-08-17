@@ -9,8 +9,6 @@ export default class StatesGraphicsSystem extends System {
     super([States, GraphicsAnimation])
   }
 
-  onEntityAdded(entity: Entity, states: States, animation: GraphicsAnimation) {}
-
   updateEntity(entity: Entity, states: States, animation: GraphicsAnimation) {
     const timeSoFar = states.timeSoFar + this.dt
     const { maxDuration, then } = states.config[states.current]!

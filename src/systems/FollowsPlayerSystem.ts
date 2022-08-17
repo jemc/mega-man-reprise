@@ -10,13 +10,6 @@ export default class FollowsPlayerSystem extends System {
     super([FollowsPlayer, PlayerAware, Position])
   }
 
-  onEntityAdded(
-    entity: Entity,
-    followsPlayer: FollowsPlayer,
-    playerAware: PlayerAware,
-    position: Position,
-  ) {}
-
   updateEntity(
     entity: Entity,
     followsPlayer: FollowsPlayer,

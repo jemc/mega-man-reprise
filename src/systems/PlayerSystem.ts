@@ -34,17 +34,6 @@ export default class PlayerSystem extends System {
     this.tileMap = tileMap
   }
 
-  onEntityAdded(
-    entity: Entity,
-    player: Player,
-    position: Position,
-    extents: Extents,
-    physicsCollision: PhysicsCollision,
-    physicsBody: PhysicsBody,
-    graphicsAnimation: GraphicsAnimation,
-    climber: Climber,
-  ) {}
-
   updateEntity(
     entity: Entity,
     player: Player,

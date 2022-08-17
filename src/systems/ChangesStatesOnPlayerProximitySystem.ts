@@ -10,13 +10,6 @@ export default class ChangesStatesOnPlayerProximitySystem extends System {
     super([ChangesStatesOnPlayerProximity, States, PlayerAware])
   }
 
-  onEntityAdded(
-    entity: Entity,
-    changes: ChangesStatesOnPlayerProximity,
-    states: States,
-    playerAware: PlayerAware,
-  ) {}
-
   updateEntity(
     entity: Entity,
     changes: ChangesStatesOnPlayerProximity,

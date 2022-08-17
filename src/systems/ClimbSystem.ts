@@ -13,14 +13,6 @@ export default class ClimbSystem extends System {
     super([Climber, Position, Extents, PhysicsBody, Active])
   }
 
-  onEntityAdded(
-    entity: Entity,
-    climber: Climber,
-    position: Position,
-    physicsBody: PhysicsBody,
-    active: Active,
-  ) {}
-
   updateEntity(
     entity: Entity,
     climber: Climber,
