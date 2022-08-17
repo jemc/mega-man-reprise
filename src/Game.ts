@@ -2,6 +2,7 @@ import { AABB2 } from "glaze/geom/AABB2"
 import { Camera } from "glaze/graphics/displaylist/Camera"
 import { DigitalInput } from "glaze/util/DigitalInput"
 import { DynamicTreeBroadphase } from "glaze/physics/collision/broadphase/DynamicTreeBroadphase"
+import { Entity } from "glazejs/src/glaze/ecs/Entity"
 import { GlazeEngine } from "glaze/GlazeEngine"
 import { GraphicsRenderSystem } from "glaze/graphics/systems/GraphicsRenderSystem"
 import { GZE } from "glaze/GZE"
@@ -22,18 +23,21 @@ import { Vector2 } from "glaze/geom/Vector2"
 import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase/TileMapCollision"
 import Aseprite from "ase-parser"
 
-import { PlayerFactory } from "./factories/PlayerFactory"
-import { PlayerSystem } from "./systems/PlayerSystem"
-import { LadderFactory } from "./factories/LadderFactory"
+import PlayerFactory from "./factories/PlayerFactory"
+import LadderFactory from "./factories/LadderFactory"
+import SpawnFactory from "./factories/SpawnFactory"
+
+import PlayerSystem from "./systems/PlayerSystem"
+import AnimationSystem from "./systems/AnimationSystem"
 import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
-import AnimationSystem from "./systems/AnimationSystem"
+import FollowsPlayerSystem from "./systems/FollowsPlayerSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
+import PlayerAwareSystem from "./systems/PlayerAwareSystem"
+
 import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
-
 import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
-import SpawnFactory from "./factories/SpawnFactory"
 monkeyPatchAssetLoaderPrototype()
 
 GZE.resolution = new Vector2(512, 480) // NES resolution * 2
@@ -51,6 +55,7 @@ const TEST_LEVEL_DATA = `data/levels/${
 export default class Game extends GlazeEngine {
   private renderSystem: GraphicsRenderSystem = undefined as any // TODO: fix this
   private tileMap!: TileMap
+  private player!: Entity
 
   constructor(canvas: HTMLCanvasElement, input: DigitalInput) {
     super(canvas, input)
@@ -74,6 +79,7 @@ export default class Game extends GlazeEngine {
     this.setupCorePhase()
     this.setupRenderPhase()
     this.createPlayer()
+    this.setupReactionPhase()
     this.createMappedEntities()
 
     this.loop.start()
@@ -167,7 +173,7 @@ export default class Game extends GlazeEngine {
     )
 
     const playerPosition = this.mapPosition(11, 3)
-    PlayerFactory.create(this.engine, playerPosition)
+    this.player = PlayerFactory.create(this.engine, playerPosition)
     this.renderSystem.cameraTarget = playerPosition.coords
   }
 
@@ -181,6 +187,14 @@ export default class Game extends GlazeEngine {
     tileMapLayer.noticedSpawns.forEach(([kind, position]) => {
       SpawnFactory.create(this.engine, kind, position)
     })
+  }
+
+  setupReactionPhase() {
+    const phase = new Phase()
+    this.engine.addPhase(phase)
+
+    phase.addSystem(new PlayerAwareSystem(this.player))
+    phase.addSystem(new FollowsPlayerSystem())
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {

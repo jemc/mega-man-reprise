@@ -16,7 +16,7 @@ import GraphicsAnimation from "../components/GraphicsAnimation"
 import Climber from "../components/Climber"
 import Climbing from "../components/Climbing"
 
-export class PlayerSystem extends System {
+export default class PlayerSystem extends System {
   private input: DigitalInput
   private tileMap: TileMapCollision
 

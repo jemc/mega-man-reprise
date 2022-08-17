@@ -10,7 +10,7 @@ import { Active } from "glaze/core/components/Active"
 
 import Climbable from "../components/Climbable"
 
-export class LadderFactory {
+export default class LadderFactory {
   static create(engine: Engine, position: Position, extents: Extents): Entity {
     const ladder = engine.createEntity()
 

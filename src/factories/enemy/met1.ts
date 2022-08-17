@@ -7,8 +7,11 @@ import { Body } from "glazejs/src/glaze/physics/Body"
 import { Moveable } from "glazejs/src/glaze/core/components/Moveable"
 import { Active } from "glaze/core/components/Active"
 import { Graphics } from "glazejs/src/glaze/graphics/components/Graphics"
+import { GZE } from "glazejs/src/glaze/GZE"
 
 import GraphicsAnimation from "../../components/GraphicsAnimation"
+import PlayerAware from "../../components/PlayerAware"
+import FollowsPlayer from "../../components/FollowsPlayer"
 
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
@@ -27,6 +30,11 @@ export default function (engine: Engine, position: Position) {
     new GraphicsAnimation("met1", "idle"),
     new Moveable(),
     new Active(),
+    new PlayerAware(),
+    new FollowsPlayer({
+      lookX: true,
+      lookHysteresis: GZE.tileSize * 2,
+    }),
   ])
 
   return entity

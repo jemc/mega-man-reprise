@@ -17,7 +17,7 @@ import { Player } from "../components/Player"
 import Climber from "../components/Climber"
 import GraphicsAnimation from "../components/GraphicsAnimation"
 
-export class PlayerFactory {
+export default class PlayerFactory {
   static create(engine: Engine, position: Position): Entity {
     const playerFilter = new Filter()
     playerFilter.categoryBits = TestFilters.PLAYER_CAT
