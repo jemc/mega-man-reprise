@@ -36,6 +36,14 @@ interface PlayerConfig {
 
   // The friction coefficient used to slow down the player when not moving with intent.
   stopFriction: number
+
+  // The horizontal force pushing the player backward when receiving damage.
+  receivingDamageForce: number
+
+  // The number of milliseconds after receiving damage for which the character
+  // is immune to further damage, but is able to move freely if not still in the
+  // `isReceivingDamage` state of the `Health` component.
+  damageImmunityDurationMillis: number
 }
 
 export class Player {

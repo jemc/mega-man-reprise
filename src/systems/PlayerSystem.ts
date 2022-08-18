@@ -1,20 +1,22 @@
-import { Entity } from "glaze/ecs/Entity"
-import { System } from "glaze/ecs/System"
-import { DigitalInput } from "glaze/util/DigitalInput"
-import { TileMapCollision } from "glaze/physics/collision/broadphase/TileMapCollision"
-import { Position } from "glaze/core/components/Position"
-import { Extents } from "glaze/core/components/Extents"
-import { PhysicsCollision } from "glaze/physics/components/PhysicsCollision"
-import { PhysicsBody } from "glaze/physics/components/PhysicsBody"
-import { Vector2 } from "glaze/geom/Vector2"
-import { Key } from "glaze/util/Keycodes"
 import { AABB2 } from "glaze/geom/AABB2"
+import { DigitalInput } from "glaze/util/DigitalInput"
+import { Entity } from "glaze/ecs/Entity"
+import { Extents } from "glaze/core/components/Extents"
+import { Graphics } from "glazejs/src/glaze/graphics/components/Graphics"
 import { GZE } from "glaze/GZE"
+import { Key } from "glaze/util/Keycodes"
+import { PhysicsBody } from "glaze/physics/components/PhysicsBody"
+import { PhysicsCollision } from "glaze/physics/components/PhysicsCollision"
+import { Position } from "glaze/core/components/Position"
+import { System } from "glaze/ecs/System"
+import { TileMapCollision } from "glaze/physics/collision/broadphase/TileMapCollision"
+import { Vector2 } from "glaze/geom/Vector2"
 
 import { Player } from "../components/Player"
 import GraphicsAnimation from "../components/GraphicsAnimation"
 import Climber from "../components/Climber"
 import Climbing from "../components/Climbing"
+import Health from "../components/Health"
 
 export default class PlayerSystem extends System {
   private input: DigitalInput
@@ -27,7 +29,9 @@ export default class PlayerSystem extends System {
       Extents,
       PhysicsCollision,
       PhysicsBody,
+      Graphics,
       GraphicsAnimation,
+      Health,
       Climber,
     ])
     this.input = input
@@ -41,7 +45,9 @@ export default class PlayerSystem extends System {
     extents: Extents,
     physicsCollision: PhysicsCollision,
     physicsBody: PhysicsBody,
+    graphics: Graphics,
     graphicsAnimation: GraphicsAnimation,
+    health: Health,
     climber: Climber,
   ) {
     let left =
@@ -52,10 +58,10 @@ export default class PlayerSystem extends System {
       this.input.Pressed(Key.DownArrow) || this.input.Pressed(Key.Period)
     let up = this.input.Pressed(Key.UpArrow) || this.input.Pressed(Key.L)
 
-    const jumpStart = this.input.JustPressed(Key.G)
-    const jumpHold = this.input.Pressed(Key.G)
-    const shootNow = this.input.JustPressed(Key.R)
-    const shootHold = this.input.Pressed(Key.R)
+    let jumpStart = this.input.JustPressed(Key.G)
+    let jumpHold = this.input.Pressed(Key.G)
+    let shootNow = this.input.JustPressed(Key.R)
+    let shootHold = this.input.Pressed(Key.R)
 
     let climbing: Climbing | null = this.engine.getComponentForEntity(
       entity,
@@ -70,6 +76,41 @@ export default class PlayerSystem extends System {
     if (up && down) {
       up = false
       down = false
+    }
+
+    if (health.isReceivingDamage) {
+      // Damage cancels all inputs.
+      left = false
+      right = false
+      down = false
+      up = false
+      jumpStart = false
+      jumpHold = false
+      shootNow = false
+      shootHold = false
+
+      // If damage receiving has started, but we haven't set up
+      // the extra immunity frames yet, set those up now.
+      const justStartedDamage = !health.isImmuneToDamage
+      if (justStartedDamage)
+        health.immuneToDamageUntil =
+          this.timestamp + player.config.damageImmunityDurationMillis
+
+      // Damage cancels sliding, unless prohibited by a low ceiling.
+      if (player.isSliding && !this.isPlayerUnderALowCeiling(position.coords))
+        player.stopSliding()
+
+      // Damage cancels climbing.
+      if (climbing)
+        this.engine.removeComponentsFromEntityByType(entity, [Climbing])
+
+      // Damage pushes the player backward at a constant speed.
+      physicsBody.body.velocity.x = 0
+      let xDamageForce = player.config.receivingDamageForce
+      if (justStartedDamage) xDamageForce *= -1
+      physicsBody.body.addProportionalForce(
+        new Vector2(position.direction.x * xDamageForce, 0),
+      )
     }
 
     // When walking on the ground, disable the effects of friction on movement.
@@ -225,8 +266,17 @@ export default class PlayerSystem extends System {
       climbing = null
     }
 
+    // When immune to damage, the sprite's transparency flashes on and off.
+    if (health.isImmuneToDamage) {
+      graphics.sprite.alpha = Math.floor((this.timestamp / 150) % 2)
+    } else {
+      graphics.sprite.alpha = 1
+    }
+
     // Update the shown animation based on current state.
-    if (climbing) {
+    if (health.isReceivingDamage) {
+      graphicsAnimation.play("ouch")
+    } else if (climbing) {
       if (shootHold || player.isShootingNow(this.timestamp)) {
         graphicsAnimation.play("climb-shoot")
       } else if (climbing.isNearTheTop) {

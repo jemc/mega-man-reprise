@@ -104,6 +104,14 @@
   "frame": {"x":147,"y":184,"w":31,"h":30},
   "pivot": {"x":0.41935483,"y":0.36666666}
 },
+"player/etude/ouch.png": {
+  "frame": {"x":178,"y":190,"w":26,"h":28},
+  "pivot": {"x":0.5,"y":0.36666666}
+},
+"player/etude/burst.png": {
+  "frame": {"x":229,"y":1,"w":24,"h":24},
+  "pivot": {"x":0.5,"y":0.5}
+},
 "player/etude/slide-1.png": {
   "frame": {"x":0,"y":208,"w":39,"h":22},
   "pivot": {"x":0.56410256,"y":0.45454545}
@@ -111,6 +119,26 @@
 "player/etude/slide-2.png": {
   "frame": {"x":39,"y":208,"w":37,"h":22},
   "pivot": {"x":0.54054054,"y":0.45454545}
+},
+"player/etude/health0.png": {
+  "frame": {"x":112,"y":208,"w":8,"h":8},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/etude/health1.png": {
+  "frame": {"x":112,"y":210,"w":8,"h":8},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/etude/health2.png": {
+  "frame": {"x":112,"y":212,"w":8,"h":8},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/etude/health3.png": {
+  "frame": {"x":112,"y":214,"w":8,"h":8},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/etude/health4.png": {
+  "frame": {"x":112,"y":216,"w":8,"h":8},
+  "pivot": {"x":0.5,"y":0.5}
 },
 "enemy/met1/idle.png": {
   "frame": {"x":192,"y":240,"w":16,"h":16},

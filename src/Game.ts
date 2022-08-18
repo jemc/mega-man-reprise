@@ -23,15 +23,20 @@ import Aseprite from "ase-parser"
 import PlayerFactory from "./factories/PlayerFactory"
 import LadderFactory from "./factories/LadderFactory"
 import SpawnFactory from "./factories/SpawnFactory"
+import HealthDisplayFactory from "./factories/HealthDisplayFactory"
 
-import PlayerSystem from "./systems/PlayerSystem"
 import AnimationSystem from "./systems/AnimationSystem"
+import ChangesStatesOnPlayerProximitySystem from "./systems/ChangesStatesOnPlayerProximitySystem"
 import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
+import DamagesPlayerOnContactSystem from "./systems/DamagesPlayerOnContactSystem"
 import FollowsPlayerSystem from "./systems/FollowsPlayerSystem"
+import HealthUpdateSystem from "./systems/HealthUpdateSystem"
+import HUDPositioningSystem from "./systems/HUDPositioningSystem"
 import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import PlayerAwareSystem from "./systems/PlayerAwareSystem"
-import ChangesStatesOnPlayerProximitySystem from "./systems/ChangesStatesOnPlayerProximitySystem"
+import PlayerSystem from "./systems/PlayerSystem"
+import SegmentedDisplaySystem from "./systems/SegmentedDisplaySystem"
 import StatesGraphicsSystem from "./systems/StatesGraphicsSystem"
 
 import TileMap from "./core/tile/TileMap"
@@ -84,6 +89,7 @@ export default class Game extends GlazeEngine {
     this.setupRenderPhase()
     this.createMappedEntities()
     this.createPlayer()
+    this.createHUDEntities()
 
     this.loop.start()
   }
@@ -106,6 +112,9 @@ export default class Game extends GlazeEngine {
     phase.addSystem(new PhysicsCollisionSystem(broadphase, contactManager))
     phase.addSystem(new PhysicsPositionSystem())
 
+    phase.addSystem(new DamagesPlayerOnContactSystem())
+    phase.addSystem(new HealthUpdateSystem())
+
     phase.addSystem(new PlayerSystem(this.input, tileMapCollision))
   }
 
@@ -121,6 +130,7 @@ export default class Game extends GlazeEngine {
     phase.addSystem(new ClimbSystem())
 
     phase.addSystem(new StatesGraphicsSystem())
+    phase.addSystem(new SegmentedDisplaySystem())
   }
 
   setupRenderPhase() {
@@ -166,6 +176,7 @@ export default class Game extends GlazeEngine {
       tileMapRenderer.renderLayersMap.get("fg")!.sprite,
     )
 
+    phase.addSystem(new HUDPositioningSystem(this.renderSystem.camera))
     phase.addSystem(this.renderSystem)
 
     // Load textures.
@@ -182,10 +193,6 @@ export default class Game extends GlazeEngine {
     )
   }
 
-  createPlayer() {
-    PlayerFactory.create(this.engine, this.player, this.playerPosition)
-  }
-
   createMappedEntities() {
     const tileMapLayer = this.tileMap.layer("Foreground")
 
@@ -196,6 +203,14 @@ export default class Game extends GlazeEngine {
     tileMapLayer.noticedSpawns.forEach(([kind, position]) => {
       SpawnFactory.create(this.engine, kind, position)
     })
+  }
+
+  createPlayer() {
+    PlayerFactory.create(this.engine, this.player, this.playerPosition)
+  }
+
+  createHUDEntities() {
+    HealthDisplayFactory.create(this.engine, this.player)
   }
 
   mapPosition(xTiles: number, yTiles: number): Position {

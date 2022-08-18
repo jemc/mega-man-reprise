@@ -14,6 +14,7 @@ import { Position } from "glaze/core/components/Position"
 import { TestFilters } from "glaze/../test/config/Filters"
 
 import { Player } from "../components/Player"
+import Health from "../components/Health"
 import Climber from "../components/Climber"
 import GraphicsAnimation from "../components/GraphicsAnimation"
 
@@ -36,6 +37,8 @@ export default class PlayerFactory {
       slideForce: 100,
       slideDurationMillis: 500,
       stopFriction: 0.2,
+      receivingDamageForce: 1,
+      damageImmunityDurationMillis: 1500,
     })
 
     const body = new Body(new Material(1, 0.3, player.config.stopFriction))
@@ -53,6 +56,10 @@ export default class PlayerFactory {
       new PhysicsCollision(false, playerFilter, []),
       new Moveable(),
       new Active(),
+      new Health({
+        max: 100,
+        receiveDamageDurationMillis: 500,
+      }),
       new Climber({
         climbSpeed: 160,
       }),

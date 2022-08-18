@@ -10,6 +10,7 @@ import { Graphics } from "glazejs/src/glaze/graphics/components/Graphics"
 import { GZE } from "glazejs/src/glaze/GZE"
 
 import GraphicsAnimation from "../../components/GraphicsAnimation"
+import DamagesPlayerOnContact from "../../components/DamagesPlayerOnContact"
 import PlayerAware from "../../components/PlayerAware"
 import FollowsPlayer from "../../components/FollowsPlayer"
 import States from "../../components/States"
@@ -18,7 +19,6 @@ import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlay
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
 
-  // TODO: Remove body or avoid velocity hack.
   const body = new Body()
   body.maxScalarVelocity = 0
   body.maxVelocity.setTo(100, 630)
@@ -32,6 +32,7 @@ export default function (engine: Engine, position: Position) {
     new GraphicsAnimation("met1", "idle"),
     new Moveable(),
     new Active(),
+    new DamagesPlayerOnContact(5),
     new PlayerAware(),
     new FollowsPlayer({
       lookX: true,
