@@ -20,10 +20,11 @@ import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { Vector2 } from "glaze/geom/Vector2"
 import Aseprite from "ase-parser"
 
-import PlayerFactory from "./factories/PlayerFactory"
-import LadderFactory from "./factories/LadderFactory"
-import SpawnFactory from "./factories/SpawnFactory"
 import HealthDisplayFactory from "./factories/HealthDisplayFactory"
+import LadderFactory from "./factories/LadderFactory"
+import PlayerFactory from "./factories/PlayerFactory"
+import SpawnFactory from "./factories/SpawnFactory"
+import SpikeFactory from "./factories/SpikeFactory"
 
 import AnimationSystem from "./systems/AnimationSystem"
 import ChangesStatesOnPlayerProximitySystem from "./systems/ChangesStatesOnPlayerProximitySystem"
@@ -198,6 +199,10 @@ export default class Game extends GlazeEngine {
 
     tileMapLayer.noticedLadders.forEach(([ladderPosition, ladderExtents]) => {
       LadderFactory.create(this.engine, ladderPosition, ladderExtents)
+    })
+
+    tileMapLayer.noticedSpikes.forEach((spikePosition) => {
+      SpikeFactory.create(this.engine, spikePosition)
     })
 
     tileMapLayer.noticedSpawns.forEach(([kind, position]) => {

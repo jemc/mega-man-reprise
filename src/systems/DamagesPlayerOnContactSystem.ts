@@ -22,7 +22,7 @@ export default class DamagesPlayerOnContactSystem extends System {
     damage: DamagesPlayerOnContact,
     physicsCollision: PhysicsCollision,
   ) {
-    const callback: ContactCallback = (entity, other, contact) => {
+    const callback: ContactCallback = (damager, other, contact) => {
       const player = this.engine.getComponentForEntity(other?.entity, Player)
       if (!player) return
 

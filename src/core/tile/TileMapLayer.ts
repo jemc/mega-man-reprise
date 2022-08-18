@@ -19,10 +19,12 @@ export default class TileMapLayer {
   specialTiles: {
     empty: number[]
     ladder: number[]
+    spike: number[]
     spawn: Map<number, string>
   }
 
   noticedLadders: [Position, Extents][] = []
+  noticedSpikes: Position[] = []
   noticedSpawns: [string, Position][] = []
 
   constructor(ase: Aseprite, layerName: string) {
@@ -82,6 +84,14 @@ export default class TileMapLayer {
       .getAll("ladder")
       .map((value) => Number.parseInt(value))
 
+    // Some tiles may be declared as spikes, which will trigger instant death.
+    //
+    // example: spike=36&spike=42
+    // yields:  spike: [36, 42]
+    const spike = celParams
+      .getAll("spike")
+      .map((value) => Number.parseInt(value))
+
     // Some tiles may be declared as spawns, which will create an entity at
     // that particular location when the player reaches that part of the map.
     //
@@ -93,7 +103,7 @@ export default class TileMapLayer {
       spawn.set(Number.parseInt(id ?? ""), name ?? "")
     })
 
-    this.specialTiles = { empty, ladder, spawn }
+    this.specialTiles = { empty, ladder, spike, spawn }
   }
 
   coordsFor(index: number): [number, number] {
@@ -120,6 +130,10 @@ export default class TileMapLayer {
 
   isTileLadder(tile: number) {
     return this.specialTiles.ladder.includes(tile)
+  }
+
+  isTileSpike(tile: number) {
+    return this.specialTiles.spike.includes(tile)
   }
 
   isTileSpawn(tile: number) {
@@ -202,6 +216,20 @@ export default class TileMapLayer {
       if (this.isTileEmpty(tileAbove)) return COLLIDE_ONE_WAY
 
       // All other ladder tiles are treated as if empty.
+      return COLLIDE_NONE
+    }
+
+    // If the tile is a spike, take note of its position, but
+    // disable collision because the spike entity that gets created
+    // will take care of both damage logic and collision.
+    if (this.isTileSpike(tile)) {
+      const [x, y] = this.coordsFor(index)
+      this.noticedSpikes.push(
+        new Position(
+          x * GZE.tileSize * 2 + GZE.tileSize,
+          y * GZE.tileSize * 2 + GZE.tileSize,
+        ),
+      )
       return COLLIDE_NONE
     }
 
