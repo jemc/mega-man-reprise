@@ -17,6 +17,7 @@ import { Player } from "../components/Player"
 import Health from "../components/Health"
 import Climber from "../components/Climber"
 import GraphicsAnimation from "../components/GraphicsAnimation"
+import DamagesEnemyOnContact from "../components/DamagesEnemyOnContact"
 
 export default class PlayerFactory {
   static create(engine: Engine, entity: Entity, position: Position): Entity {
@@ -61,6 +62,7 @@ export default class PlayerFactory {
       new Health({
         max: 100,
         receiveDamageDurationMillis: 500,
+        deathAction: PlayerFactory.createDeath,
       }),
       new Climber({
         climbSpeed: 160,
@@ -87,12 +89,13 @@ export default class PlayerFactory {
       new GraphicsAnimation("etude-shot", "pellet"),
       new PhysicsBody(body, true),
       new PhysicsCollision(true, null as any, []),
+      new DamagesEnemyOnContact(1),
       new Moveable(),
       new Active(),
     ])
   }
 
-  static createDeath(engine: Engine, position: Position) {
+  static createDeath(engine: Engine, entity: Entity, position: Position) {
     const explosionSpeed = 84
 
     for (let i = 0; i < 8; i++) {
@@ -104,8 +107,7 @@ export default class PlayerFactory {
       body.velocity.x = explosionSpeed * Math.sin((i * Math.PI) / 4)
       body.velocity.y = explosionSpeed * Math.cos((i * Math.PI) / 4)
 
-      const entity = engine.createEntity()
-      engine.addComponentsToEntity(entity, [
+      engine.addComponentsToEntity(engine.createEntity(), [
         position.clone(),
         new Graphics("explode"),
         new GraphicsAnimation("explode", "main"),

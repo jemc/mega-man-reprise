@@ -82,15 +82,6 @@ export default class PlayerSystem extends System {
       down = false
     }
 
-    // Handle player death.
-    if (health.isDead) {
-      graphics.sprite.alpha = 0
-      physicsBody.body.setStaticPosition(position.coords.x, position.coords.y)
-      this.engine.removeComponentsFromEntityByType(entity, [Active])
-      PlayerFactory.createDeath(this.engine, position.clone())
-      return
-    }
-
     if (health.isReceivingDamage) {
       // Damage cancels all inputs.
       left = false

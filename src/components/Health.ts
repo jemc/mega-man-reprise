@@ -1,6 +1,11 @@
+import { Engine } from "glazejs/src/glaze/ecs/Engine"
+import { Entity } from "glazejs/src/glaze/ecs/Entity"
+import { Position } from "glazejs/src/glaze/core/components/Position"
+
 interface HealthConfig {
   max: number
   receiveDamageDurationMillis: number
+  deathAction: (engine: Engine, entity: Entity, position: Position) => void
 }
 
 export default class Health {

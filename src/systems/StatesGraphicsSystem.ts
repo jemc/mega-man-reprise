@@ -20,7 +20,11 @@ export default class StatesGraphicsSystem extends System {
     const { maxDuration, then } = states.config[states.current]!
 
     if (maxDuration && then && timeSoFar >= maxDuration) {
-      states.changeTo(then)
+      if (then === "destroy") {
+        this.engine.destroyEntity(entity)
+      } else {
+        states.changeTo(then)
+      }
     } else {
       states.timeSoFar = timeSoFar
     }

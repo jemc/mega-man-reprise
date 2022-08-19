@@ -30,6 +30,7 @@ import AnimationSystem from "./systems/AnimationSystem"
 import ChangesStatesOnPlayerProximitySystem from "./systems/ChangesStatesOnPlayerProximitySystem"
 import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
+import DamagesEnemyOnContactSystem from "./systems/DamagesEnemyOnContactSystem"
 import DamagesPlayerOnContactSystem from "./systems/DamagesPlayerOnContactSystem"
 import FollowsPlayerSystem from "./systems/FollowsPlayerSystem"
 import HealthUpdateSystem from "./systems/HealthUpdateSystem"
@@ -115,6 +116,7 @@ export default class Game extends GlazeEngine {
     phase.addSystem(new PhysicsCollisionSystem(broadphase, contactManager))
     phase.addSystem(new PhysicsPositionSystem())
 
+    phase.addSystem(new DamagesEnemyOnContactSystem())
     phase.addSystem(new DamagesPlayerOnContactSystem())
     phase.addSystem(new HealthUpdateSystem())
 
