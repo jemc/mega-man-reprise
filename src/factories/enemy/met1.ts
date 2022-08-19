@@ -37,7 +37,7 @@ export default function (engine: Engine, position: Position) {
     new Moveable(),
     new Active(),
     new Health({ max: 1, receiveDamageDurationMillis: 100, deathAction }),
-    new DamagesPlayerOnContact(5),
+    new DamagesPlayerOnContact(10),
     new PlayerAware(),
     new FollowsPlayer({
       lookX: true,
@@ -46,7 +46,7 @@ export default function (engine: Engine, position: Position) {
     new States("idle", {
       idle: { minDuration: 2000, deflectsBullets: true },
       opening: { maxDuration: 300, then: "open" },
-      open: { maxDuration: 500, then: "closing" },
+      open: { maxDuration: 500, then: "closing", startAction: shootAction },
       closing: { maxDuration: 300, then: "idle" },
     }),
     new ChangesStatesOnPlayerProximity({
@@ -77,4 +77,31 @@ function deathAction(engine: Engine, entity: Entity, position: Position) {
       main: { maxDuration: 400, then: "destroy" },
     }),
   ])
+}
+
+function shootAction(engine: Engine, enemy: Entity, position: Position) {
+  const shotSpeed = 300
+  const shotDir = position.direction.x
+
+  for (let i = 0; i < 3; i++) {
+    const body = new Body()
+    body.globalForceFactor = 0
+    body.maxScalarVelocity = 0
+    body.maxVelocity.setTo(shotSpeed, shotSpeed)
+    body.velocity.x = shotSpeed * Math.sin(((i + 1) * Math.PI) / 4) * shotDir
+    body.velocity.y = shotSpeed * Math.cos(((i + 1) * Math.PI) / 4)
+    body.isBullet = true
+
+    engine.addComponentsToEntity(engine.createEntity(), [
+      position.clone(),
+      new Extents(6, 6),
+      new Graphics("met1-shot"),
+      new GraphicsAnimation("met1-shot", "main"),
+      new PhysicsBody(body, true),
+      new PhysicsCollision(true, null as any, []),
+      new DamagesPlayerOnContact(5),
+      new Moveable(),
+      new Active(),
+    ])
+  }
 }

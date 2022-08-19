@@ -107,5 +107,13 @@
       "open": { "frames": [3], "fps": 0, "looped": false },
       "closing": { "frames": [2, 1], "fps": 6, "looped": false }
     }
+  },
+  "met1-shot": {
+    "frames": [
+      { "id": "s", "name": "enemy/met1/shot.png", "scale": { "x": -2, "y": 2 } }
+    ],
+    "animations": {
+      "main": { "frames": [0], "fps": 0, "looped": false }
+    }
   }
 }
