@@ -120,6 +120,10 @@
   "frame": {"x":39,"y":208,"w":37,"h":22},
   "pivot": {"x":0.54054054,"y":0.45454545}
 },
+"player/etude/shot.png": {
+  "frame": {"x":163,"y":226,"w":8,"h":6},
+  "pivot": {"x":0.5,"y":0.5}
+},
 "player/etude/health0.png": {
   "frame": {"x":112,"y":208,"w":8,"h":8},
   "pivot": {"x":0.5,"y":0.5}
