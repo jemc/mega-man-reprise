@@ -109,7 +109,9 @@ export default class Game extends GlazeEngine {
     phase.addSystem(new PhysicsStaticSystem(broadphase))
     phase.addSystem(new PhysicsMoveableSystem(broadphase))
 
-    phase.addSystem(new PhysicsUpdateSystem())
+    const physicsUpdate = new PhysicsUpdateSystem()
+    physicsUpdate.globalDamping = 1
+    phase.addSystem(physicsUpdate)
     phase.addSystem(new PhysicsCollisionSystem(broadphase, contactManager))
     phase.addSystem(new PhysicsPositionSystem())
 

@@ -37,6 +37,8 @@ export default class PlayerFactory {
       slideForce: 100,
       slideDurationMillis: 500,
       stopFriction: 0.2,
+      shootOffsetX: 36,
+      shootOffsetY: 2,
       receivingDamageForce: 1,
       damageImmunityDurationMillis: 1500,
     })
@@ -66,5 +68,27 @@ export default class PlayerFactory {
     ])
 
     return entity
+  }
+
+  static createShot(engine: Engine, position: Position) {
+    const shotSpeed = 400
+
+    const body = new Body(new Material(1, 0.0, 0.0))
+    body.maxScalarVelocity = 0
+    body.maxVelocity.setTo(shotSpeed, 0)
+    body.velocity.x = shotSpeed * position.direction.x
+    body.isBullet = true
+
+    const entity = engine.createEntity()
+    engine.addComponentsToEntity(entity, [
+      position,
+      new Extents(8, 6),
+      new Graphics("etude-shot"),
+      new GraphicsAnimation("etude-shot", "pellet"),
+      new PhysicsBody(body, true),
+      new PhysicsCollision(true, null as any, []),
+      new Moveable(),
+      new Active(),
+    ])
   }
 }

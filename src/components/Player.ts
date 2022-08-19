@@ -37,6 +37,12 @@ interface PlayerConfig {
   // The friction coefficient used to slow down the player when not moving with intent.
   stopFriction: number
 
+  // When shooting, the X offset at which shots will appear.
+  shootOffsetX: number
+
+  // When shooting, the Y offset at which shots will appear.
+  shootOffsetY: number
+
   // The horizontal force pushing the player backward when receiving damage.
   receivingDamageForce: number
 

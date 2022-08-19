@@ -17,6 +17,7 @@ import GraphicsAnimation from "../components/GraphicsAnimation"
 import Climber from "../components/Climber"
 import Climbing from "../components/Climbing"
 import Health from "../components/Health"
+import PlayerFactory from "../factories/PlayerFactory"
 
 export default class PlayerSystem extends System {
   private input: DigitalInput
@@ -185,9 +186,27 @@ export default class PlayerSystem extends System {
       physicsBody.body.velocity.x = 0
     }
 
-    // If shoot button was just pressed, start the shoot timer.
-    if (shootNow) {
+    // While climbing and shooting, holding left or right can
+    // change the player's direction of shooting.
+    if (climbing && shootNow && (left || right)) {
+      position.direction.x = left ? -1 : 1
+    }
+
+    // If shoot button was just pressed, shoot.
+    if (shootNow && !player.isSliding) {
+      // Start the shoot animation timer.
       player.shootNow(this.timestamp)
+
+      // Create a shot.
+      const shootDir = position.direction.x
+      PlayerFactory.createShot(
+        this.engine,
+        new Position(
+          position.coords.x + shootDir * player.config.shootOffsetX,
+          position.coords.y + player.config.shootOffsetY,
+          shootDir,
+        ),
+      )
     }
 
     // Not holding the jump button cancels any upward movement.
