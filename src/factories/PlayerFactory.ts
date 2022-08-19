@@ -73,7 +73,7 @@ export default class PlayerFactory {
   static createShot(engine: Engine, position: Position) {
     const shotSpeed = 400
 
-    const body = new Body(new Material(1, 0.0, 0.0))
+    const body = new Body()
     body.maxScalarVelocity = 0
     body.maxVelocity.setTo(shotSpeed, 0)
     body.velocity.x = shotSpeed * position.direction.x
@@ -90,5 +90,29 @@ export default class PlayerFactory {
       new Moveable(),
       new Active(),
     ])
+  }
+
+  static createDeath(engine: Engine, position: Position) {
+    const explosionSpeed = 84
+
+    for (let i = 0; i < 8; i++) {
+      const body = new Body()
+      body.isBullet = true
+      body.maxScalarVelocity = 0
+      body.globalForceFactor = 0
+      body.maxVelocity.setTo(explosionSpeed, explosionSpeed)
+      body.velocity.x = explosionSpeed * Math.sin((i * Math.PI) / 4)
+      body.velocity.y = explosionSpeed * Math.cos((i * Math.PI) / 4)
+
+      const entity = engine.createEntity()
+      engine.addComponentsToEntity(entity, [
+        position.clone(),
+        new Graphics("explode"),
+        new GraphicsAnimation("explode", "main"),
+        new PhysicsBody(body, true),
+        new Moveable(),
+        new Active(),
+      ])
+    }
   }
 }

@@ -41,6 +41,7 @@ export default class HealthDisplayFactory {
           return health.current / health.config.max
         },
       }),
+      new Active(),
     ])
 
     return entity

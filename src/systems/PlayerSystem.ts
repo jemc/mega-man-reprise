@@ -82,6 +82,13 @@ export default class PlayerSystem extends System {
       down = false
     }
 
+    if (health.isDead) {
+      graphics.sprite.alpha = 0
+      this.engine.removeComponentsFromEntityByType(entity, [Active])
+      PlayerFactory.createDeath(this.engine, position.clone())
+      return
+    }
+
     if (health.isReceivingDamage) {
       // Damage cancels all inputs.
       left = false
