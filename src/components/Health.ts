@@ -14,6 +14,7 @@ export default class Health {
   receivingDamageUntil = 0
   immuneToDamageUntil = 0
   pendingDamage = 0
+  currentlyDeflectsBullets = false
 
   constructor(config: HealthConfig) {
     this.config = config
@@ -26,6 +27,12 @@ export default class Health {
 
   sendDamage(amount: number) {
     if (!this.pendingDamage) this.pendingDamage = amount
+  }
+
+  sendBulletDamage(amount: number): boolean {
+    if (this.currentlyDeflectsBullets) return false
+    this.sendDamage(amount)
+    return true
   }
 
   get isReceivingDamage() {

@@ -76,8 +76,9 @@ export default class PlayerFactory {
     const shotSpeed = 400
 
     const body = new Body()
+    body.globalForceFactor = 0
     body.maxScalarVelocity = 0
-    body.maxVelocity.setTo(shotSpeed, 0)
+    body.maxVelocity.setTo(shotSpeed, shotSpeed)
     body.velocity.x = shotSpeed * position.direction.x
     body.isBullet = true
 
@@ -89,7 +90,7 @@ export default class PlayerFactory {
       new GraphicsAnimation("etude-shot", "pellet"),
       new PhysicsBody(body, true),
       new PhysicsCollision(true, null as any, []),
-      new DamagesEnemyOnContact(1),
+      new DamagesEnemyOnContact("bullet", 1),
       new Moveable(),
       new Active(),
     ])

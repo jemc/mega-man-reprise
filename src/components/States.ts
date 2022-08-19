@@ -3,6 +3,7 @@ interface StatesConfig {
     minDuration?: number
     maxDuration?: number
     then?: string
+    deflectsBullets?: boolean
   }
 }
 

@@ -40,6 +40,7 @@ import PlayerAwareSystem from "./systems/PlayerAwareSystem"
 import PlayerSystem from "./systems/PlayerSystem"
 import SegmentedDisplaySystem from "./systems/SegmentedDisplaySystem"
 import StatesGraphicsSystem from "./systems/StatesGraphicsSystem"
+import StatesHealthSystem from "./systems/StatesHealthSystem"
 
 import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
@@ -135,6 +136,8 @@ export default class Game extends GlazeEngine {
     phase.addSystem(new ClimbSystem())
 
     phase.addSystem(new StatesGraphicsSystem())
+    phase.addSystem(new StatesHealthSystem())
+
     phase.addSystem(new SegmentedDisplaySystem())
   }
 

@@ -7,6 +7,8 @@ import { PhysicsCollision } from "glazejs/src/glaze/physics/components/PhysicsCo
 import DamagesEnemyOnContact from "../components/DamagesEnemyOnContact"
 import Health from "../components/Health"
 import Enemy from "../components/Enemy"
+import { PhysicsBody } from "glazejs/src/glaze/physics/components/PhysicsBody"
+import { Vector2 } from "glazejs/src/glaze/geom/Vector2"
 
 export default class DamagesEnemyOnContactSystem extends System {
   callbacks = new Map<Entity, ContactCallback>()
@@ -29,7 +31,11 @@ export default class DamagesEnemyOnContactSystem extends System {
       const health = this.engine.getComponentForEntity(other?.entity, Health)
       if (!health) return
 
-      health.sendDamage(damage.amount)
+      if (damage.kind === "bullet") {
+        this.sendBulletDamage(entity, damage, health)
+      } else {
+        health.sendDamage(damage.amount)
+      }
     }
 
     this.callbacks.set(entity, callback)
@@ -53,5 +59,41 @@ export default class DamagesEnemyOnContactSystem extends System {
     if (callbackIndex < 0) return
 
     contactCallbacks.splice(callbackIndex, 1)
+  }
+
+  // Handle the particulars of sending damage of the bullet kind.
+  private sendBulletDamage(
+    entity: number,
+    damage: DamagesEnemyOnContact,
+    health: Health,
+  ) {
+    // Try to send bullet damage. Will return false if the bullet is deflected.
+    const didDamage = health.sendBulletDamage(damage.amount)
+
+    if (didDamage) {
+      // If the bullet did damage, the bullet is destroyed.
+      this.engine.destroyEntity(entity)
+    } else {
+      // Otherwise, try to get its physics body.
+      const physicsBody: PhysicsBody | undefined =
+        this.engine.getComponentForEntity(entity, PhysicsBody)
+      if (physicsBody) {
+        // If we got a physics body, the bullet is deflected by applying an
+        // infinite force in the upper-diagonal direction. The force is infinite
+        // but we expect the max velocity of the bullet to limit its speed.
+        physicsBody.body.addProportionalForce(
+          new Vector2(-Infinity * physicsBody.body.velocity.x, -Infinity),
+        )
+
+        // We also remove the ability for the deflected bullet to be able to do
+        // further damage to other enemies it might hit on its deflected path.
+        this.engine.removeComponentsFromEntityByType(entity, [
+          DamagesEnemyOnContact,
+        ])
+      } else {
+        // If we can't do a physics body deflection, just detroy the bullet.
+        this.engine.destroyEntity(entity)
+      }
+    }
   }
 }

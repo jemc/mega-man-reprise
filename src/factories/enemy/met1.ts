@@ -44,7 +44,7 @@ export default function (engine: Engine, position: Position) {
       lookHysteresis: GZE.tileSize * 2,
     }),
     new States("idle", {
-      idle: { minDuration: 2000 },
+      idle: { minDuration: 2000, deflectsBullets: true },
       opening: { maxDuration: 300, then: "open" },
       open: { maxDuration: 500, then: "closing" },
       closing: { maxDuration: 300, then: "idle" },
