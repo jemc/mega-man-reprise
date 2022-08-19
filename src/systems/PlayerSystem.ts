@@ -11,6 +11,7 @@ import { Position } from "glaze/core/components/Position"
 import { System } from "glaze/ecs/System"
 import { TileMapCollision } from "glaze/physics/collision/broadphase/TileMapCollision"
 import { Vector2 } from "glaze/geom/Vector2"
+import { Active } from "glazejs/src/glaze/core/components/Active"
 
 import { Player } from "../components/Player"
 import GraphicsAnimation from "../components/GraphicsAnimation"
@@ -34,6 +35,7 @@ export default class PlayerSystem extends System {
       GraphicsAnimation,
       Health,
       Climber,
+      Active,
     ])
     this.input = input
     this.tileMap = tileMap
@@ -50,6 +52,7 @@ export default class PlayerSystem extends System {
     graphicsAnimation: GraphicsAnimation,
     health: Health,
     climber: Climber,
+    active: Active,
   ) {
     let left =
       this.input.Pressed(Key.LeftArrow) || this.input.Pressed(Key.Comma)

@@ -3,6 +3,7 @@ import { System } from "glaze/ecs/System"
 import { Camera } from "glazejs/src/glaze/graphics/displaylist/Camera"
 import { DisplayObjectContainer } from "glazejs/src/glaze/graphics/displaylist/DisplayObjectContainer"
 import { Graphics } from "glazejs/src/glaze/graphics/components/Graphics"
+import { Active } from "glazejs/src/glaze/core/components/Active"
 
 import HUDPositioning from "../components/HUDPositioning"
 
@@ -10,7 +11,7 @@ export default class HUDPositioningSystem extends System {
   container: HUDContainer
 
   constructor(camera: Camera) {
-    super([HUDPositioning, Graphics])
+    super([HUDPositioning, Graphics, Active])
     this.container = new HUDContainer()
     camera.addChild(this.container)
   }
@@ -19,6 +20,7 @@ export default class HUDPositioningSystem extends System {
     entity: Entity,
     hudPositioning: HUDPositioning,
     graphics: Graphics,
+    active: Active,
   ) {
     if (graphics.sprite.parent !== this.container)
       this.container.addChild(graphics.sprite)

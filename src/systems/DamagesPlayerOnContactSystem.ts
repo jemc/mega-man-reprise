@@ -1,8 +1,7 @@
 import { Entity } from "glaze/ecs/Entity"
 import { System } from "glaze/ecs/System"
-import { Component } from "glazejs/src/glaze/ecs/Component"
+import { Active } from "glazejs/src/glaze/core/components/Active"
 import { ContactCallback } from "glazejs/src/glaze/physics/collision/contact/Contact"
-import { PhysicsBody } from "glazejs/src/glaze/physics/components/PhysicsBody"
 import { PhysicsCollision } from "glazejs/src/glaze/physics/components/PhysicsCollision"
 
 import DamagesPlayerOnContact from "../components/DamagesPlayerOnContact"
@@ -13,7 +12,7 @@ export default class DamagesPlayerOnContactSystem extends System {
   callbacks = new Map<Entity, ContactCallback>()
 
   constructor() {
-    super([DamagesPlayerOnContact, PhysicsCollision])
+    super([DamagesPlayerOnContact, PhysicsCollision, Active])
   }
 
   // When added to the system, add the callback.
@@ -21,6 +20,7 @@ export default class DamagesPlayerOnContactSystem extends System {
     entity: number,
     damage: DamagesPlayerOnContact,
     physicsCollision: PhysicsCollision,
+    active: Active,
   ) {
     const callback: ContactCallback = (damager, other, contact) => {
       const player = this.engine.getComponentForEntity(other?.entity, Player)
@@ -42,6 +42,7 @@ export default class DamagesPlayerOnContactSystem extends System {
     entity: number,
     damage: DamagesPlayerOnContact,
     physicsCollision: PhysicsCollision,
+    active: Active,
   ): void {
     const callback = this.callbacks.get(entity)
     if (!callback) return
