@@ -65,6 +65,19 @@
       "pellet": { "frames": [0], "fps": 0, "looped": false }
     }
   },
+  "explode": {
+    "frames": [
+      { "id": "e1", "name": "player/explode-1.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "e2", "name": "player/explode-2.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "e3", "name": "player/explode-3.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "e4", "name": "player/explode-4.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "e5", "name": "player/explode-5.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "e6", "name": "player/explode-6.png", "scale": { "x": 2, "y": 2 } }
+    ],
+    "animations": {
+      "main": { "frames": [0, 1, 2, 3, 4, 5], "fps": 10, "looped": false }
+    }
+  },
   "etude-health": {
     "frames": [
       { "id": "0", "name": "player/etude/health0.png", "scale": { "x": 2, "y": 2 } },

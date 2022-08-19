@@ -144,6 +144,30 @@
   "frame": {"x":112,"y":216,"w":8,"h":8},
   "pivot": {"x":0.5,"y":0.5}
 },
+"player/explode-1.png": {
+  "frame": {"x":96,"y":136,"w":24,"h":24},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/explode-2.png": {
+  "frame": {"x":120,"y":144,"w":16,"h":16},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/explode-3.png": {
+  "frame": {"x":136,"y":148,"w":12,"h":12},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/explode-4.png": {
+  "frame": {"x":148,"y":150,"w":10,"h":10},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/explode-5.png": {
+  "frame": {"x":158,"y":156,"w":4,"h":4},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"player/explode-6.png": {
+  "frame": {"x":162,"y":156,"w":4,"h":4},
+  "pivot": {"x":0.5,"y":0.5}
+},
 "enemy/met1/idle.png": {
   "frame": {"x":192,"y":240,"w":16,"h":16},
   "pivot": {"x":0.5,"y":0.5}
