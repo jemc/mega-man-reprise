@@ -145,8 +145,8 @@ export default class Game extends GlazeEngine {
     const camera = new Camera()
     camera.worldExtentsAABB = new AABB2(
       GZE.tileSize * 2,
-      GZE.tileSize * (aseTileMap.width - 4),
-      GZE.tileSize * (aseTileMap.height - 4),
+      (aseTileMap.width - GZE.tileSize) * 2,
+      (aseTileMap.height - GZE.tileSize) * 2,
       GZE.tileSize * 2,
     )
 
