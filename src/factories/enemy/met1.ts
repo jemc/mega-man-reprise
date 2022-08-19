@@ -47,7 +47,7 @@ export default function (engine: Engine, position: Position) {
     new ChangesStatesOnPlayerProximity({
       from: "idle",
       to: "opening",
-      proximityX: GZE.tileSize * 6,
+      proximityX: GZE.tileSize * 9,
       proximityY: GZE.tileSize * 4,
       delay: 500,
     }),
