@@ -5,16 +5,24 @@ import { Active } from "glazejs/src/glaze/core/components/Active"
 import ChangesStatesOnPlayerProximity from "../components/ChangesStatesOnPlayerProximity"
 import States from "../components/States"
 import PlayerAware from "../components/PlayerAware"
+import { Position } from "glazejs/src/glaze/core/components/Position"
 
 export default class ChangesStatesOnPlayerProximitySystem extends System {
   constructor() {
-    super([ChangesStatesOnPlayerProximity, States, PlayerAware, Active])
+    super([
+      ChangesStatesOnPlayerProximity,
+      States,
+      Position,
+      PlayerAware,
+      Active,
+    ])
   }
 
   updateEntity(
     entity: Entity,
     changes: ChangesStatesOnPlayerProximity,
     states: States,
+    position: Position,
     playerAware: PlayerAware,
     active: Active,
   ) {
@@ -31,6 +39,9 @@ export default class ChangesStatesOnPlayerProximitySystem extends System {
         if (changes.timeSoFar >= delay) {
           states.changeTo(to)
           changes.timeSoFar = 0
+
+          const { startAction } = states.config[states.current]!
+          if (startAction) startAction(this.engine, entity, position.clone())
         } else {
           changes.timeSoFar += this.dt
         }

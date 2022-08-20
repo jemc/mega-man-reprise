@@ -34,6 +34,6 @@ export default class StatesGraphicsSystem extends System {
       states.timeSoFar = timeSoFar
     }
 
-    animation.play(states.current)
+    animation.play(states.currentAnimation)
   }
 }

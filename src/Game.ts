@@ -55,6 +55,10 @@ const PLAYER_SPRITES_CONFIG = "data/PlayerSprites.json"
 const PLAYER_SPRITES_DATA = "data/PlayerSprites.png"
 const PLAYER_SPRITES_FRAMES_CONFIG = "data/PlayerSpritesFrames.json"
 
+const ENEMY_SPRITES_CONFIG = "data/EnemySprites.json"
+const ENEMY_SPRITES_DATA = "data/EnemySprites.png"
+const ENEMY_SPRITES_FRAMES_CONFIG = "data/EnemySpritesFrames.json"
+
 const TEST_LEVEL_DATA = `data/levels/${
   URL_PARAMS.get("level") || "TestLevel"
 }.aseprite`
@@ -76,6 +80,9 @@ export default class Game extends GlazeEngine {
       PLAYER_SPRITES_CONFIG,
       PLAYER_SPRITES_DATA,
       PLAYER_SPRITES_FRAMES_CONFIG,
+      ENEMY_SPRITES_CONFIG,
+      ENEMY_SPRITES_DATA,
+      ENEMY_SPRITES_FRAMES_CONFIG,
       TEST_LEVEL_DATA,
     ])
   }
@@ -198,6 +205,17 @@ export default class Game extends GlazeEngine {
     )
     this.renderSystem.frameListManager.ParseFrameListJSON(
       this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
+    )
+    this.renderSystem.textureManager.AddTexture(
+      ENEMY_SPRITES_DATA,
+      this.assets.assets.get(ENEMY_SPRITES_DATA),
+    )
+    this.renderSystem.textureManager.ParseTexturePackerJSON(
+      this.assets.assets.get(ENEMY_SPRITES_CONFIG),
+      ENEMY_SPRITES_DATA,
+    )
+    this.renderSystem.frameListManager.ParseFrameListJSON(
+      this.assets.assets.get(ENEMY_SPRITES_FRAMES_CONFIG),
     )
   }
 

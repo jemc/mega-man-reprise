@@ -1,0 +1,14 @@
+{"frames":{
+"enemy/turret1/idle.png": {
+  "frame": {"x":0,"y":0,"w":18,"h":18},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"enemy/turret1/shoot.png": {
+  "frame": {"x":18,"y":0,"w":18,"h":18},
+  "pivot": {"x":0.5,"y":0.5}
+},
+"enemy/shot/bullet.png": {
+  "frame": {"x":0,"y":18,"w":6,"h":6},
+  "pivot": {"x":0.5,"y":0.5}
+}
+}}

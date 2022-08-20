@@ -4,6 +4,7 @@ import { Position } from "glazejs/src/glaze/core/components/Position"
 
 interface StatesConfig {
   [name: string]: {
+    animation?: string
     minDuration?: number
     maxDuration?: number
     then?: string
@@ -26,6 +27,11 @@ export default class States {
   changeTo(next: string) {
     this.current = next
     this.timeSoFar = 0
+  }
+
+  get currentAnimation() {
+    const { animation } = this.config[this.current]!
+    return animation ?? this.current
   }
 
   get hasMinDurationElapsed() {
