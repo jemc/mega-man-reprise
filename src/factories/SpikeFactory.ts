@@ -12,7 +12,7 @@ import { GZE } from "glazejs/src/glaze/GZE"
 import DamagesPlayerOnContact from "../components/DamagesPlayerOnContact"
 
 export default class SpikeFactory {
-  static create(engine: Engine, position: Position, extents: Extents): Entity {
+  static create(engine: Engine, position: Position): Entity {
     const entity = engine.createEntity()
 
     // TODO: Remove body? is this unnecessary?

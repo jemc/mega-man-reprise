@@ -85,7 +85,7 @@ export default class PlayerFactory {
     const entity = engine.createEntity()
     engine.addComponentsToEntity(entity, [
       position,
-      new Extents(8, 6),
+      new Extents(6, 4),
       new Graphics("etude-shot"),
       new GraphicsAnimation("etude-shot", "pellet"),
       new PhysicsBody(body, true),

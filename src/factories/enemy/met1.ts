@@ -94,7 +94,7 @@ function shootAction(engine: Engine, enemy: Entity, position: Position) {
 
     engine.addComponentsToEntity(engine.createEntity(), [
       position.clone(),
-      new Extents(6, 6),
+      new Extents(4, 4),
       new Graphics("met1-shot"),
       new GraphicsAnimation("met1-shot", "main"),
       new PhysicsBody(body, true),

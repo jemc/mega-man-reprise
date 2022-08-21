@@ -9,6 +9,29 @@
       "shoot": { "frames": [1], "fps": 0, "looped": false }
     }
   },
+  "turret2": {
+    "frames": [
+      { "id": "i", "name": "enemy/turret2/idle.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o1", "name": "enemy/turret2/opening-1.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o2", "name": "enemy/turret2/opening-2.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o3", "name": "enemy/turret2/opening-3.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o4", "name": "enemy/turret2/opening-4.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o5", "name": "enemy/turret2/opening-5.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o6", "name": "enemy/turret2/opening-6.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o7", "name": "enemy/turret2/opening-7.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o8", "name": "enemy/turret2/opening-8.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o9", "name": "enemy/turret2/opening-9.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o10", "name": "enemy/turret2/opening-10.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o11", "name": "enemy/turret2/opening-11.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "o", "name": "enemy/turret2/open.png", "scale": { "x": 2, "y": 2 } }
+    ],
+    "animations": {
+      "idle": { "frames": [0], "fps": 0, "looped": false },
+      "opening": { "frames": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "fps": 22, "looped": false },
+      "open": { "frames": [12], "fps": 0, "looped": false },
+      "closing": { "frames": [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], "fps": 22, "looped": false }
+    }
+  },
   "shot": {
     "frames": [
       { "id": "s", "name": "enemy/shot/bullet.png", "scale": { "x": 2, "y": 2 } }

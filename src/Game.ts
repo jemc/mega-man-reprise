@@ -45,6 +45,8 @@ import StatesHealthSystem from "./systems/StatesHealthSystem"
 import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
+import ExtentsFollowSpriteExtentsSystem from "./systems/ExtentsFollowSpriteExtentsSystem"
+import loadSpriteSheet from "./sprite/loadSpriteSheet"
 monkeyPatchAssetLoaderPrototype()
 
 GZE.resolution = new Vector2(512, 480) // NES resolution * 2
@@ -171,6 +173,8 @@ export default class Game extends GlazeEngine {
 
     phase.addSystem(new AnimationSystem(this.renderSystem.frameListManager))
 
+    phase.addSystem(new ExtentsFollowSpriteExtentsSystem())
+
     const { tileMap } = this
     const tileMapRenderer = new TileMapRenderer(16, 2)
     tileMapRenderer.SetTileRenderLayer("bg", ["Background", "Foreground"])
@@ -206,16 +210,12 @@ export default class Game extends GlazeEngine {
     this.renderSystem.frameListManager.ParseFrameListJSON(
       this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
     )
-    this.renderSystem.textureManager.AddTexture(
+    loadSpriteSheet(
+      this.renderSystem,
+      this.assets,
       ENEMY_SPRITES_DATA,
-      this.assets.assets.get(ENEMY_SPRITES_DATA),
-    )
-    this.renderSystem.textureManager.ParseTexturePackerJSON(
-      this.assets.assets.get(ENEMY_SPRITES_CONFIG),
-      ENEMY_SPRITES_DATA,
-    )
-    this.renderSystem.frameListManager.ParseFrameListJSON(
-      this.assets.assets.get(ENEMY_SPRITES_FRAMES_CONFIG),
+      ENEMY_SPRITES_CONFIG,
+      ENEMY_SPRITES_FRAMES_CONFIG,
     )
   }
 

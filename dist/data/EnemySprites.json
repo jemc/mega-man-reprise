@@ -1,14 +1,66 @@
-{"frames":{
+{
 "enemy/turret1/idle.png": {
   "frame": {"x":0,"y":0,"w":18,"h":18},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":9,"y":9}
 },
 "enemy/turret1/shoot.png": {
   "frame": {"x":18,"y":0,"w":18,"h":18},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":9,"y":9}
+},
+"enemy/turret2/idle.png": {
+  "frame": {"x":72,"y":0,"w":12,"h":5},
+  "pivot": {"x":6,"y":2.5}
+},
+"enemy/turret2/opening-1.png": {
+  "frame": {"x":60,"y":0,"w":12,"h":6},
+  "pivot": {"x":6,"y":3}
+},
+"enemy/turret2/opening-2.png": {
+  "frame": {"x":48,"y":0,"w":12,"h":7},
+  "pivot": {"x":6,"y":3.5}
+},
+"enemy/turret2/opening-3.png": {
+  "frame": {"x":36,"y":0,"w":12,"h":8},
+  "pivot": {"x":6,"y":4}
+},
+"enemy/turret2/opening-4.png": {
+  "frame": {"x":36,"y":8,"w":12,"h":9},
+  "pivot": {"x":6,"y":4.5}
+},
+"enemy/turret2/opening-5.png": {
+  "frame": {"x":48,"y":7,"w":12,"h":10},
+  "pivot": {"x":6,"y":5}
+},
+"enemy/turret2/opening-6.png": {
+  "frame": {"x":60,"y":6,"w":12,"h":11},
+  "pivot": {"x":6,"y":5.5}
+},
+"enemy/turret2/opening-7.png": {
+  "frame": {"x":72,"y":5,"w":12,"h":12},
+  "pivot": {"x":6,"y":6}
+},
+"enemy/turret2/opening-8.png": {
+  "frame": {"x":84,"y":4,"w":12,"h":13},
+  "pivot": {"x":6,"y":6.5}
+},
+"enemy/turret2/opening-9.png": {
+  "frame": {"x":96,"y":3,"w":12,"h":14},
+  "pivot": {"x":6,"y":7}
+},
+"enemy/turret2/opening-10.png": {
+  "frame": {"x":108,"y":2,"w":12,"h":15},
+  "pivot": {"x":6,"y":7.5}
+},
+"enemy/turret2/opening-11.png": {
+  "frame": {"x":120,"y":1,"w":12,"h":16},
+  "pivot": {"x":6,"y":8}
+},
+"enemy/turret2/open.png": {
+  "frame": {"x":132,"y":0,"w":12,"h":17},
+  "pivot": {"x":6,"y":8.5}
 },
 "enemy/shot/bullet.png": {
   "frame": {"x":0,"y":18,"w":6,"h":6},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":3,"y":3}
 }
-}}
+}
