@@ -1,191 +1,146 @@
-{"frames":{
-"player/megaman/idle-1.png": {
-  "frame": {"x":0,"y":0,"w":21,"h":24},
-  "pivot": {"x":0.5,"y":0.45833333}
-},
-"player/megaman/idle-2.png": {
-  "frame": {"x":21,"y":0,"w":21,"h":24},
-  "pivot": {"x":0.5,"y":0.45833333}
-},
-"player/megaman/step.png": {
-  "frame": {"x":42,"y":0,"w":20,"h":24},
-  "pivot": {"x":0.45,"y":0.45833333}
-},
-"player/megaman/walk-1.png": {
-  "frame": {"x":62,"y":0,"w":24,"h":24},
-  "pivot": {"x":0.375,"y":0.45833333}
-},
-"player/megaman/walk-2.png": {
-  "frame": {"x":86,"y":0,"w":16,"h":24},
-  "pivot": {"x":0.4375,"y":0.45833333}
-},
-"player/megaman/walk-3.png": {
-  "frame": {"x":102,"y":0,"w":21,"h":24},
-  "pivot": {"x":0.5,"y":0.45833333}
-},
-"player/megaman/walk-1-shoot.png": {
-  "frame": {"x":58,"y":24,"w":29,"h":24},
-  "pivot": {"x":0.310344827,"y":0.45833333}
-},
-"player/megaman/walk-2-shoot.png": {
-  "frame": {"x":87,"y":24,"w":26,"h":24},
-  "pivot": {"x":0.269230769,"y":0.45833333}
-},
-"player/megaman/walk-3-shoot.png": {
-  "frame": {"x":113,"y":24,"w":30,"h":24},
-  "pivot": {"x":0.35,"y":0.45833333}
-},
-"player/megaman/jump.png": {
-  "frame": {"x":143,"y":29,"w":26,"h":30},
-  "pivot": {"x":0.5,"y":0.36666666}
-},
-"player/megaman/slide.png": {
-  "frame": {"x":0,"y":48,"w":28,"h":21},
-  "pivot": {"x":0.5,"y":0.42857142}
-},
-
+{
 "player/etude/idle-1.png": {
   "frame": {"x":0,"y":160,"w":24,"h":24},
-  "pivot": {"x":0.45833333,"y":0.45833333}
+  "pivot": {"x":12,"y":12}
 },
 "player/etude/idle-2.png": {
   "frame": {"x":24,"y":160,"w":24,"h":24},
-  "pivot": {"x":0.45833333,"y":0.45833333}
+  "pivot": {"x":12,"y":12}
 },
 "player/etude/step.png": {
   "frame": {"x":48,"y":160,"w":24,"h":24},
-  "pivot": {"x":0.45833333,"y":0.45833333}
+  "pivot": {"x":12,"y":12}
 },
 "player/etude/walk-1.png": {
   "frame": {"x":72,"y":160,"w":25,"h":24},
-  "pivot": {"x":0.36,"y":0.45833333}
+  "pivot": {"x":9,"y":12}
 },
 "player/etude/walk-2.png": {
   "frame": {"x":97,"y":160,"w":24,"h":24},
-  "pivot": {"x":0.375,"y":0.45833333}
+  "pivot": {"x":9,"y":12}
 },
 "player/etude/walk-3.png": {
   "frame": {"x":121,"y":160,"w":27,"h":24},
-  "pivot": {"x":0.40740741,"y":0.45833333}
+  "pivot": {"x":11,"y":12}
 },
 "player/etude/climb-top.png": {
   "frame": {"x":154,"y":160,"w":16,"h":24},
-  "pivot": {"x":0.4375,"y":0.2083333}
+  "pivot": {"x":7,"y":6}
 },
 "player/etude/climb.png": {
   "frame": {"x":171,"y":160,"w":16,"h":30},
-  "pivot": {"x":0.4375,"y":0.36666666}
+  "pivot": {"x":7,"y":12}
 },
 "player/etude/climb-shoot.png": {
   "frame": {"x":187,"y":160,"w":25,"h":30},
-  "pivot": {"x":0.36,"y":0.36666666}
+  "pivot": {"x":9,"y":12}
 },
 "player/etude/shoot.png": {
   "frame": {"x":0,"y":184,"w":29,"h":24},
-  "pivot": {"x":0.20689655,"y":0.45833333}
+  "pivot": {"x":6,"y":12}
 },
 "player/etude/walk-shoot-1.png": {
   "frame": {"x":29,"y":184,"w":31,"h":24},
-  "pivot": {"x":0.29032258,"y":0.45833333}
+  "pivot": {"x":9,"y":12}
 },
 "player/etude/walk-shoot-2.png": {
   "frame": {"x":60,"y":184,"w":29,"h":24},
-  "pivot": {"x":0.27586207,"y":0.45833333}
+  "pivot": {"x":8,"y":12}
 },
 "player/etude/walk-shoot-3.png": {
   "frame": {"x":89,"y":184,"w":33,"h":24},
-  "pivot": {"x":0.33333333,"y":0.45833333}
+  "pivot": {"x":11,"y":12}
 },
 "player/etude/jump.png": {
   "frame": {"x":122,"y":184,"w":25,"h":30},
-  "pivot": {"x":0.52,"y":0.36666666}
+  "pivot": {"x":13,"y":12}
 },
 "player/etude/jump-shoot.png": {
   "frame": {"x":147,"y":184,"w":31,"h":30},
-  "pivot": {"x":0.41935483,"y":0.36666666}
+  "pivot": {"x":13,"y":12}
 },
 "player/etude/ouch.png": {
   "frame": {"x":178,"y":190,"w":26,"h":28},
-  "pivot": {"x":0.5,"y":0.36666666}
+  "pivot": {"x":13,"y":12}
 },
 "player/etude/burst.png": {
   "frame": {"x":229,"y":1,"w":24,"h":24},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":12,"y":12}
 },
 "player/etude/slide-1.png": {
   "frame": {"x":0,"y":208,"w":39,"h":22},
-  "pivot": {"x":0.56410256,"y":0.45454545}
+  "pivot": {"x":22,"y":11}
 },
 "player/etude/slide-2.png": {
   "frame": {"x":39,"y":208,"w":37,"h":22},
-  "pivot": {"x":0.54054054,"y":0.45454545}
+  "pivot": {"x":20,"y":11}
 },
 "player/etude/shot.png": {
   "frame": {"x":163,"y":226,"w":8,"h":6},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":3}
 },
 "player/etude/health0.png": {
   "frame": {"x":112,"y":208,"w":8,"h":8},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":4}
 },
 "player/etude/health1.png": {
   "frame": {"x":112,"y":210,"w":8,"h":8},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":4}
 },
 "player/etude/health2.png": {
   "frame": {"x":112,"y":212,"w":8,"h":8},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":4}
 },
 "player/etude/health3.png": {
   "frame": {"x":112,"y":214,"w":8,"h":8},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":4}
 },
 "player/etude/health4.png": {
   "frame": {"x":112,"y":216,"w":8,"h":8},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":4,"y":4}
 },
 "player/explode-1.png": {
   "frame": {"x":96,"y":136,"w":24,"h":24},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":12,"y":12}
 },
 "player/explode-2.png": {
   "frame": {"x":120,"y":144,"w":16,"h":16},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":8,"y":8}
 },
 "player/explode-3.png": {
   "frame": {"x":136,"y":148,"w":12,"h":12},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":6,"y":6}
 },
 "player/explode-4.png": {
   "frame": {"x":148,"y":150,"w":10,"h":10},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":5,"y":5}
 },
 "player/explode-5.png": {
   "frame": {"x":158,"y":156,"w":4,"h":4},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":2,"y":2}
 },
 "player/explode-6.png": {
   "frame": {"x":162,"y":156,"w":4,"h":4},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":2,"y":2}
 },
 "enemy/met1/idle.png": {
   "frame": {"x":192,"y":247,"w":16,"h":9},
-  "pivot": {"x":0.5,"y":0.11111111}
+  "pivot": {"x":8,"y":2}
 },
 "enemy/met1/opening-1.png": {
   "frame": {"x":208,"y":240,"w":16,"h":16},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":8,"y":8}
 },
 "enemy/met1/opening-2.png": {
   "frame": {"x":224,"y":240,"w":16,"h":16},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":8,"y":8}
 },
 "enemy/met1/open.png": {
   "frame": {"x":240,"y":240,"w":16,"h":16},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":8,"y":8}
 },
 "enemy/met1/shot.png": {
   "frame": {"x":192,"y":240,"w":6,"h":6},
-  "pivot": {"x":0.5,"y":0.5}
+  "pivot": {"x":3,"y":3}
 }
-}}
+}
