@@ -18,6 +18,7 @@ import FollowsPlayer from "../../components/FollowsPlayer"
 import Health from "../../components/Health"
 import States from "../../components/States"
 import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlayerProximity"
+import createExplodeSimple from "../projectile/createExplodeSimple"
 
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
@@ -36,7 +37,11 @@ export default function (engine: Engine, position: Position) {
     new GraphicsAnimation("turret1", "idle"),
     new Moveable(),
     new Active(),
-    new Health({ max: 3, receiveDamageDurationMillis: 100, deathAction }),
+    new Health({
+      max: 3,
+      receiveDamageDurationMillis: 100,
+      deathAction: createExplodeSimple,
+    }),
     new DamagesPlayerOnContact(15),
     new PlayerAware(),
     new FollowsPlayer({
@@ -58,24 +63,6 @@ export default function (engine: Engine, position: Position) {
   ])
 
   return entity
-}
-
-function deathAction(engine: Engine, entity: Entity, position: Position) {
-  const body = new Body()
-  body.isBullet = true
-  body.maxScalarVelocity = 0
-  body.globalForceFactor = 0
-  body.maxVelocity.setTo(0, 0)
-
-  engine.addComponentsToEntity(engine.createEntity(), [
-    position.clone(),
-    new Graphics("explode"),
-    new GraphicsAnimation("explode", "main"),
-    new Active(),
-    new States("main", {
-      main: { maxDuration: 400, then: "destroy" },
-    }),
-  ])
 }
 
 function shootAction(engine: Engine, enemy: Entity, position: Position) {
