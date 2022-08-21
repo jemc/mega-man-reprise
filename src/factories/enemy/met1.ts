@@ -36,7 +36,7 @@ export default function (engine: Engine, position: Position) {
     new GraphicsAnimation("met1", "idle"),
     new Moveable(),
     new Active(),
-    new Health({ max: 1, receiveDamageDurationMillis: 100, deathAction }),
+    new Health({ max: 3, receiveDamageDurationMillis: 100, deathAction }),
     new DamagesPlayerOnContact(10),
     new PlayerAware(),
     new FollowsPlayer({
