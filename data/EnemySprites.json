@@ -1,4 +1,8 @@
 {
+"enemy/shot/bullet.png": {
+  "frame": {"x":144,"y":0,"w":6,"h":6},
+  "pivot": {"x":3,"y":3}
+},
 "enemy/turret1/idle.png": {
   "frame": {"x":0,"y":0,"w":18,"h":18},
   "pivot": {"x":9,"y":9}
@@ -59,8 +63,20 @@
   "frame": {"x":132,"y":0,"w":12,"h":17},
   "pivot": {"x":6,"y":8.5}
 },
-"enemy/shot/bullet.png": {
-  "frame": {"x":0,"y":18,"w":6,"h":6},
-  "pivot": {"x":3,"y":3}
+"enemy/met1/idle.png": {
+  "frame": {"x":144,"y":7,"w":16,"h":9},
+  "pivot": {"x":8,"y":2}
+},
+"enemy/met1/opening-1.png": {
+  "frame": {"x":160,"y":5,"w":16,"h":11},
+  "pivot": {"x":8,"y":4}
+},
+"enemy/met1/opening-2.png": {
+  "frame": {"x":176,"y":3,"w":16,"h":13},
+  "pivot": {"x":8,"y":6}
+},
+"enemy/met1/open.png": {
+  "frame": {"x":192,"y":0,"w":16,"h":16},
+  "pivot": {"x":8,"y":9}
 }
 }

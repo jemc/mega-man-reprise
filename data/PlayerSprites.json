@@ -122,25 +122,5 @@
 "player/explode-6.png": {
   "frame": {"x":162,"y":156,"w":4,"h":4},
   "pivot": {"x":2,"y":2}
-},
-"enemy/met1/idle.png": {
-  "frame": {"x":192,"y":247,"w":16,"h":9},
-  "pivot": {"x":8,"y":2}
-},
-"enemy/met1/opening-1.png": {
-  "frame": {"x":208,"y":240,"w":16,"h":16},
-  "pivot": {"x":8,"y":8}
-},
-"enemy/met1/opening-2.png": {
-  "frame": {"x":224,"y":240,"w":16,"h":16},
-  "pivot": {"x":8,"y":8}
-},
-"enemy/met1/open.png": {
-  "frame": {"x":240,"y":240,"w":16,"h":16},
-  "pivot": {"x":8,"y":8}
-},
-"enemy/met1/shot.png": {
-  "frame": {"x":192,"y":240,"w":6,"h":6},
-  "pivot": {"x":3,"y":3}
 }
 }
