@@ -199,16 +199,23 @@ export default class Game extends GlazeEngine {
     phase.addSystem(this.renderSystem)
 
     // Load textures.
-    this.renderSystem.textureManager.AddTexture(
+    // this.renderSystem.textureManager.AddTexture(
+    //   PLAYER_SPRITES_DATA,
+    //   this.assets.assets.get(PLAYER_SPRITES_DATA),
+    // )
+    // this.renderSystem.textureManager.ParseTexturePackerJSON(
+    //   this.assets.assets.get(PLAYER_SPRITES_CONFIG),
+    //   PLAYER_SPRITES_DATA,
+    // )
+    // this.renderSystem.frameListManager.ParseFrameListJSON(
+    //   this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
+    // )
+    loadSpriteSheet(
+      this.renderSystem,
+      this.assets,
       PLAYER_SPRITES_DATA,
-      this.assets.assets.get(PLAYER_SPRITES_DATA),
-    )
-    this.renderSystem.textureManager.ParseTexturePackerJSON(
-      this.assets.assets.get(PLAYER_SPRITES_CONFIG),
-      PLAYER_SPRITES_DATA,
-    )
-    this.renderSystem.frameListManager.ParseFrameListJSON(
-      this.assets.assets.get(PLAYER_SPRITES_FRAMES_CONFIG),
+      PLAYER_SPRITES_CONFIG,
+      PLAYER_SPRITES_FRAMES_CONFIG,
     )
     loadSpriteSheet(
       this.renderSystem,
