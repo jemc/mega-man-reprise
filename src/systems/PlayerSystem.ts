@@ -95,8 +95,7 @@ export default class PlayerSystem extends System {
 
       // If damage receiving has started, but we haven't set up
       // the extra immunity frames yet, set those up now.
-      const justStartedDamage = !health.isImmuneToDamage
-      if (justStartedDamage)
+      if (!health.isImmuneToDamage)
         health.immuneToDamageUntil =
           this.timestamp + player.config.damageImmunityDurationMillis
 
@@ -110,10 +109,11 @@ export default class PlayerSystem extends System {
 
       // Damage pushes the player backward at a constant speed.
       physicsBody.body.velocity.x = 0
-      let xDamageForce = player.config.receivingDamageForce
-      if (justStartedDamage) xDamageForce *= -1
       physicsBody.body.addProportionalForce(
-        new Vector2(position.direction.x * xDamageForce, 0),
+        new Vector2(
+          position.direction.x * player.config.receivingDamageForce * -1,
+          0,
+        ),
       )
     }
 
@@ -233,7 +233,8 @@ export default class PlayerSystem extends System {
     // allowing the acceleration to be predictable for different characters,
     // making the in-universe justifying assumption that a character's size
     // is roughly proportional to their muscle system's motive force
-    if (left || right) {
+    if ((left || right) && !climbing) {
+      position.direction.x = left ? -1 : 1
       const xForceAmount =
         Math.abs(physicsBody.body.velocity.x) < player.config.maxStepSpeed
           ? player.config.stepForce

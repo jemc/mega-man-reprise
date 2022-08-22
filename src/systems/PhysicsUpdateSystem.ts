@@ -1,9 +1,6 @@
 // The following code is copied from https://github.com/rjewson/glazejs
 // and is available under the original ISC license.
 // Copyrights are owned by the original author.
-//
-// TODO: Remove this file when the bug fix PR is merged:
-// https://github.com/rjewson/glazejs/pull/23
 
 import { System } from "glaze/ecs/System"
 import { Vector2 } from "glaze/geom/Vector2"
@@ -42,13 +39,10 @@ export default class PhysicsUpdateSystem extends System {
       this.globalForce,
       this.globalDamping,
     )
-    // If the body is moving in the X direction, update the direction vector
-    // to match the direction of the velocity.
-    // Note that if the X velocity is zero, the direction will remain unchanged.
-    if (physicsBody.body.velocity.x > 0) {
-      position.direction.x = 1
-    } else if (physicsBody.body.velocity.x < 0) {
-      position.direction.x = -1
-    }
+    // Unlike the upstream glaze library, we avoid updating direction
+    // based on velocity here, because things aren't always facing in the same
+    // direction that they are moving. For example, a character receiving
+    // damage may get knocked backwards, but this doesn't necessarily change
+    // which direction their front face is pointing.
   }
 }
