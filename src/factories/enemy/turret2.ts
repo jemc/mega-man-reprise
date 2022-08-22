@@ -19,6 +19,7 @@ import States from "../../components/States"
 import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlayerProximity"
 import ExtentsFollowSpriteExtents from "../../components/ExtentsFollowSpriteExtents"
 import createExplodeSimple from "../projectile/createExplodeSimple"
+import createShootBullet from "../projectile/createShootBullet"
 
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
@@ -65,28 +66,7 @@ export default function (engine: Engine, position: Position) {
 }
 
 function shootAction(engine: Engine, enemy: Entity, position: Position) {
-  const shotSpeed = 300
-  const shotDir = position.direction.x
-
-  for (let i = 0; i < 5; i++) {
-    const body = new Body()
-    body.globalForceFactor = 0
-    body.maxScalarVelocity = 0
-    body.maxVelocity.setTo(shotSpeed, shotSpeed)
-    body.velocity.x = shotSpeed * Math.sin(((i + 2) * Math.PI) / 4) * shotDir
-    body.velocity.y = shotSpeed * Math.cos(((i + 2) * Math.PI) / 4)
-    body.isBullet = true
-
-    engine.addComponentsToEntity(engine.createEntity(), [
-      new Position(position.coords.x, position.coords.y - 14, shotDir),
-      new Extents(4, 4),
-      new Graphics("shot"),
-      new GraphicsAnimation("shot", "bullet"),
-      new PhysicsBody(body, true),
-      new PhysicsCollision(true, null as any, []),
-      new DamagesPlayerOnContact(5),
-      new Moveable(),
-      new Active(),
-    ])
-  }
+  ;[0, 45, 90, 135, 180].forEach((angleDegrees) => {
+    createShootBullet(engine, enemy, position.clone(), { angleDegrees })
+  })
 }
