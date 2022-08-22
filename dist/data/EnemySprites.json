@@ -78,5 +78,25 @@
 "enemy/met1/open.png": {
   "frame": {"x":192,"y":0,"w":16,"h":16},
   "pivot": {"x":8,"y":9}
+},
+"enemy/catapult/idle.png": {
+  "frame": {"x":105,"y":43,"w":40,"h":23},
+  "pivot": {"x":16,"y":10}
+},
+"enemy/catapult/shoot-1.png": {
+  "frame": {"x":105,"y":17,"w":41,"h":26},
+  "pivot": {"x":16,"y":13}
+},
+"enemy/catapult/shoot-2.png": {
+  "frame": {"x":0,"y":26,"w":33,"h":40},
+  "pivot": {"x":16,"y":27}
+},
+"enemy/catapult/shoot-3.png": {
+  "frame": {"x":33,"y":22,"w":32,"h":44},
+  "pivot": {"x":16,"y":31}
+},
+"enemy/catapult/shoot-4.png": {
+  "frame": {"x":65,"y":27,"w":40,"h":39},
+  "pivot": {"x":24,"y":26}
 }
 }

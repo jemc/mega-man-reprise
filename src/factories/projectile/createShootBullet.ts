@@ -11,6 +11,7 @@ import { Graphics } from "glazejs/src/glaze/graphics/components/Graphics"
 
 import GraphicsAnimation from "../../components/GraphicsAnimation"
 import DamagesPlayerOnContact from "../../components/DamagesPlayerOnContact"
+import { Vector2 } from "glazejs/src/glaze/geom/Vector2"
 
 export default function createShootBullet(
   engine: Engine,
@@ -20,13 +21,17 @@ export default function createShootBullet(
     shotSpeed?: number
     damageAmount?: number
     angleDegrees?: number
+    targetForAngle?: Vector2
   },
 ) {
   const shotDir = position.direction.x
   const shotSpeed = opts?.shotSpeed ?? 300
   const damageAmount = opts?.damageAmount ?? 5
-  const angleDegrees = opts?.angleDegrees ?? 0
-  const angleRadians = angleDegrees * (Math.PI / 180)
+  const angleRadians = opts?.angleDegrees
+    ? opts.angleDegrees * (Math.PI / 180)
+    : opts?.targetForAngle
+    ? angleRadiansFromTarget(position.coords, opts.targetForAngle)
+    : 0
 
   const body = new Body()
   body.globalForceFactor = 0
@@ -47,4 +52,10 @@ export default function createShootBullet(
     new Moveable(),
     new Active(),
   ])
+}
+
+function angleRadiansFromTarget(source: Vector2, target: Vector2) {
+  if (target.x > source.x)
+    return -Math.atan2(target.y - source.y, target.x - source.x)
+  else return -Math.atan2(source.y - target.y, source.x - target.x)
 }

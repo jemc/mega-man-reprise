@@ -5,6 +5,7 @@ import { Position } from "glaze/core/components/Position"
 import enemyMet1 from "./enemy/met1"
 import enemyTurret1 from "./enemy/turret1"
 import enemyTurret2 from "./enemy/turret2"
+import enemyCatapult from "./enemy/catapult"
 
 export default class SpawnFactory {
   static create(engine: Engine, kind: string, position: Position): Entity {
@@ -15,6 +16,8 @@ export default class SpawnFactory {
         return enemyTurret1(engine, position)
       case "enemy-turret2":
         return enemyTurret2(engine, position)
+      case "enemy-catapult":
+        return enemyCatapult(engine, position)
       default:
         throw new Error(`Unknown spawn kind: ${kind}`)
     }
