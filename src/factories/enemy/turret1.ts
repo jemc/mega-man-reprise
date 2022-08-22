@@ -19,6 +19,7 @@ import Health from "../../components/Health"
 import States from "../../components/States"
 import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlayerProximity"
 import createExplodeSimple from "../projectile/createExplodeSimple"
+import createShootBullet from "../projectile/createShootBullet"
 
 export default function (engine: Engine, position: Position) {
   const entity = engine.createEntity()
@@ -66,29 +67,13 @@ export default function (engine: Engine, position: Position) {
 }
 
 function shootAction(engine: Engine, enemy: Entity, position: Position) {
-  const shotSpeed = 300
-  const shotDir = position.direction.x
-
-  const body = new Body()
-  body.globalForceFactor = 0
-  body.maxScalarVelocity = 0
-  body.maxVelocity.setTo(shotSpeed, shotSpeed)
-  body.velocity.x = shotSpeed * shotDir
-  body.isBullet = true
-
-  engine.addComponentsToEntity(engine.createEntity(), [
+  createShootBullet(
+    engine,
+    enemy,
     new Position(
-      position.coords.x + 14 * shotDir,
+      position.coords.x + 14 * position.direction.x,
       position.coords.y - 10,
-      shotDir,
+      position.direction.x,
     ),
-    new Extents(4, 4),
-    new Graphics("shot"),
-    new GraphicsAnimation("shot", "bullet"),
-    new PhysicsBody(body, true),
-    new PhysicsCollision(true, null as any, []),
-    new DamagesPlayerOnContact(5),
-    new Moveable(),
-    new Active(),
-  ])
+  )
 }
