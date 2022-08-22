@@ -39,8 +39,8 @@ export default function createShootBullet(
   engine.addComponentsToEntity(engine.createEntity(), [
     position.clone(),
     new Extents(4, 4),
-    new Graphics("etude"),
-    new GraphicsAnimation("etude", "ouch"),
+    new Graphics("shot"),
+    new GraphicsAnimation("shot", "bullet"),
     new PhysicsBody(body, true),
     new PhysicsCollision(true, null as any, []),
     new DamagesPlayerOnContact(damageAmount),
