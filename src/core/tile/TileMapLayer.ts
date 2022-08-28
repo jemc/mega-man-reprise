@@ -18,11 +18,13 @@ export default class TileMapLayer {
   tilemapMetadata: NonNullable<Aseprite.Cel["tilemapMetadata"]>
   specialTiles: {
     empty: number[]
+    start: number[]
     ladder: number[]
     spike: number[]
     spawn: Map<number, string>
   }
 
+  noticedStartPoint?: Position
   noticedLadders: [Position, Extents][] = []
   noticedSpikes: Position[] = []
   noticedSpawns: [string, Position][] = []
@@ -75,6 +77,18 @@ export default class TileMapLayer {
       ...celParams.getAll("empty").map((value) => Number.parseInt(value)),
     ]
 
+    // Some tiles may be declared as start points, which indicate where the
+    // player will arrive when first starting the level. We'll only track the
+    // first one of these that we encounter in the level, and ignore the rest,
+    // but multiple tile types may be defined as start points (though that
+    // doesn't make much sense) and they'll each have equal treatment.
+    //
+    // example: start=36&start=42
+    // yields:  start: [36, 42]
+    const start = celParams
+      .getAll("start")
+      .map((value) => Number.parseInt(value))
+
     // Some tiles may be declared as ladders, which will be climbable,
     // and it will be possible to stand on the top of each ladder.
     //
@@ -103,11 +117,15 @@ export default class TileMapLayer {
       spawn.set(Number.parseInt(id ?? ""), name ?? "")
     })
 
-    this.specialTiles = { empty, ladder, spike, spawn }
+    this.specialTiles = { empty, start, ladder, spike, spawn }
   }
 
   coordsFor(index: number): [number, number] {
     return [index % this.cel.w, Math.floor(index / this.cel.w)]
+  }
+
+  collideTypeAbove(index: number, distance: number = 1) {
+    return this._collisionData?.data8[index - this.cel.w * distance]
   }
 
   tileAbove(index: number, distance: number = 1): number {
@@ -126,6 +144,10 @@ export default class TileMapLayer {
 
   isTileEmpty(tile: number) {
     return this.specialTiles.empty.includes(tile)
+  }
+
+  isTileStartPoint(tile: number) {
+    return this.specialTiles.start.includes(tile)
   }
 
   isTileLadder(tile: number) {
@@ -149,9 +171,8 @@ export default class TileMapLayer {
     new Uint32Array(cel.rawCelData.buffer).forEach((tileBits, index) => {
       let tile = tileBits & tilemapMetadata.bitmaskForTileId
 
-      // Spawn tiles don't render as the tile itself - they are removed and
-      // replaced with the actual entity that they were representing.
-      if (this.isTileSpawn(tile)) tile = 0
+      // Tiles that only mark a position don't render as the tile itself.
+      if (this.isTileStartPoint(tile) || this.isTileSpawn(tile)) tile = 0
 
       destData[index] = tile + 1
     })
@@ -171,11 +192,11 @@ export default class TileMapLayer {
       GZE.tileSize * 2,
       1,
     )
+    this._collisionData = collisionData
     this.tilemapData.forEach((tileBits, index) => {
       collisionData.data8[index] = this.getCollisionTile(tileBits, index)
     })
 
-    this._collisionData = collisionData
     return collisionData
   }
 
@@ -184,6 +205,17 @@ export default class TileMapLayer {
 
     // An empty tile always has no collision.
     if (this.isTileEmpty(tile)) return COLLIDE_NONE
+
+    // If the tile is a start point and we haven't seen another start point yet,
+    // take note of its position. Collision is disabled for this point.
+    if (this.isTileStartPoint(tile) && !this.noticedStartPoint) {
+      const [x, y] = this.coordsFor(index)
+      this.noticedStartPoint = new Position(
+        x * GZE.tileSize * 2 + GZE.tileSize,
+        y * GZE.tileSize * 2 + GZE.tileSize,
+      )
+      return COLLIDE_NONE
+    }
 
     // If the tile map shows a ladder tile and the tile above it is empty,
     // treat it as a "one-way" tile. You can stand on top of a ladder.
@@ -211,9 +243,14 @@ export default class TileMapLayer {
         ])
       }
 
-      // If the tile above is empty, treat this as a "one-way" tile, allowing
-      // entities to stand "on top" of the ladder, but not collide into it.
-      if (this.isTileEmpty(tileAbove)) return COLLIDE_ONE_WAY
+      // If this is the top of the ladder, and the tile above is not collidable,
+      // treat this as a "one-way" tile, allowing entities to stand "on top" of
+      // a ladder, but not collide at all into the lower parts of it.
+      if (
+        this.collideTypeAbove(index) === COLLIDE_NONE &&
+        !this.isTileLadder(this.tileAbove(index))
+      )
+        return COLLIDE_ONE_WAY
 
       // All other ladder tiles are treated as if empty.
       return COLLIDE_NONE

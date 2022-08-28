@@ -95,7 +95,7 @@ export default class Game extends GlazeEngine {
 
     this.tileMap = new TileMap(this.assets.assets.get(TEST_LEVEL_DATA))
     this.player = this.engine.createEntity("player")
-    this.playerPosition = this.mapPosition(11, 3)
+    this.playerPosition = new Position(0, 0)
 
     this.setupCorePhase()
     this.setupReactionPhase()
@@ -231,6 +231,19 @@ export default class Game extends GlazeEngine {
 
   createMappedEntities() {
     const tileMapLayer = this.tileMap.layer("Foreground")
+
+    if (tileMapLayer.noticedStartPoint) {
+      this.playerPosition.coords.setTo(
+        tileMapLayer.noticedStartPoint.coords.x,
+        tileMapLayer.noticedStartPoint.coords.y - 2, // TODO: use player extents instead of hard-coding the -2
+      )
+      this.renderSystem.camera.position.setTo(
+        -this.playerPosition.coords.x +
+          this.renderSystem.camera.halfViewportSize.x,
+        -this.playerPosition.coords.y +
+          this.renderSystem.camera.halfViewportSize.y,
+      )
+    }
 
     tileMapLayer.noticedLadders.forEach(([ladderPosition, ladderExtents]) => {
       LadderFactory.create(this.engine, ladderPosition, ladderExtents)
