@@ -21,7 +21,7 @@ import ChangesStatesOnPlayerProximity from "../../components/ChangesStatesOnPlay
 import createExplodeSimple from "../projectile/createExplodeSimple"
 import createShootBullet from "../projectile/createShootBullet"
 
-export default function (engine: Engine, position: Position) {
+export default function (engine: Engine, spawner: Entity, position: Position) {
   const entity = engine.createEntity()
 
   const body = new Body()

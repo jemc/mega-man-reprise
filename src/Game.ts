@@ -32,6 +32,7 @@ import ClimbableSystem from "./systems/ClimbableSystem"
 import ClimbSystem from "./systems/ClimbSystem"
 import DamagesEnemyOnContactSystem from "./systems/DamagesEnemyOnContactSystem"
 import DamagesPlayerOnContactSystem from "./systems/DamagesPlayerOnContactSystem"
+import ExtentsFollowSpriteExtentsSystem from "./systems/ExtentsFollowSpriteExtentsSystem"
 import FollowsPlayerSystem from "./systems/FollowsPlayerSystem"
 import HealthUpdateSystem from "./systems/HealthUpdateSystem"
 import HUDPositioningSystem from "./systems/HUDPositioningSystem"
@@ -39,13 +40,13 @@ import PhysicsUpdateSystem from "./systems/PhysicsUpdateSystem"
 import PlayerAwareSystem from "./systems/PlayerAwareSystem"
 import PlayerSystem from "./systems/PlayerSystem"
 import SegmentedDisplaySystem from "./systems/SegmentedDisplaySystem"
+import SpawnOnCameraArrivalSystem from "./systems/SpawnOnCameraArrivalSystem"
 import StatesGraphicsSystem from "./systems/StatesGraphicsSystem"
 import StatesHealthSystem from "./systems/StatesHealthSystem"
 
 import TileMap from "./core/tile/TileMap"
 import monkeyPatchTileMapRenderer from "./core/tile/monkeyPatchTileMapRenderer"
 import { monkeyPatchAssetLoaderPrototype } from "./loaders/AssetLoader"
-import ExtentsFollowSpriteExtentsSystem from "./systems/ExtentsFollowSpriteExtentsSystem"
 import loadSpriteSheet from "./sprite/loadSpriteSheet"
 monkeyPatchAssetLoaderPrototype()
 
@@ -197,6 +198,8 @@ export default class Game extends GlazeEngine {
 
     phase.addSystem(new HUDPositioningSystem(this.renderSystem.camera))
     phase.addSystem(this.renderSystem)
+
+    phase.addSystem(new SpawnOnCameraArrivalSystem(this.renderSystem.camera))
 
     // Load textures.
     // this.renderSystem.textureManager.AddTexture(
