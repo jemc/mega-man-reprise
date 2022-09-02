@@ -68,5 +68,13 @@
       "shoot": { "frames": [3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4], "fps": 10, "looped": false },
       "reload": { "frames": [3, 2, 1], "fps": 10, "looped": false }
     }
+  },
+  "block-shootable": {
+    "frames": [
+      { "id": "i", "name": "block/shootable/idle.png", "scale": { "x": -2, "y": 2 } }
+    ],
+    "animations": {
+      "idle": { "frames": [0], "fps": 0, "looped": false }
+    }
   }
 }
