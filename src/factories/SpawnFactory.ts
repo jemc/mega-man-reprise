@@ -2,11 +2,13 @@ import { Engine } from "glaze/ecs/Engine"
 import { Entity } from "glaze/ecs/Entity"
 import { Position } from "glaze/core/components/Position"
 
+import SpawnOnCameraArrival from "../components/SpawnOnCameraArrival"
+
 import enemyMet1 from "./enemy/met1"
 import enemyTurret1 from "./enemy/turret1"
 import enemyTurret2 from "./enemy/turret2"
 import enemyCatapult from "./enemy/catapult"
-import SpawnOnCameraArrival from "../components/SpawnOnCameraArrival"
+import blockShootable from "./block/shootable"
 
 export default class SpawnFactory {
   static create(engine: Engine, kind: string, position: Position): Entity {
@@ -19,6 +21,8 @@ export default class SpawnFactory {
         return createSpawn(engine, position, enemyTurret2)
       case "enemy-catapult":
         return createSpawn(engine, position, enemyCatapult)
+      case "block-shootable":
+        return blockShootable(engine, 0, position)
       default:
         throw new Error(`Unknown spawn kind: ${kind}`)
     }

@@ -98,5 +98,9 @@
 "enemy/catapult/shoot-4.png": {
   "frame": {"x":65,"y":27,"w":40,"h":39},
   "pivot": {"x":24,"y":26}
+},
+"block/shootable/idle.png": {
+  "frame": {"x":240,"y":32,"w":16,"h":16},
+  "pivot": {"x":8,"y":8}
 }
 }
