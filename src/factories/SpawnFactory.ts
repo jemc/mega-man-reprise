@@ -8,6 +8,7 @@ import enemyMet1 from "./enemy/met1"
 import enemyTurret1 from "./enemy/turret1"
 import enemyTurret2 from "./enemy/turret2"
 import enemyCatapult from "./enemy/catapult"
+import enemySpider1 from "./enemy/spider1"
 import blockShootable from "./block/shootable"
 
 export default class SpawnFactory {
@@ -21,6 +22,8 @@ export default class SpawnFactory {
         return createSpawn(engine, position, enemyTurret2)
       case "enemy-catapult":
         return createSpawn(engine, position, enemyCatapult)
+      case "enemy-spider1":
+        return createSpawn(engine, position, enemySpider1)
       case "block-shootable":
         return blockShootable(engine, 0, position)
       default:

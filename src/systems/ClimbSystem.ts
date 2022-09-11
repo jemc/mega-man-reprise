@@ -7,6 +7,7 @@ import { Active } from "glazejs/src/glaze/core/components/Active"
 
 import Climbing from "../components/Climbing"
 import Climber from "../components/Climber"
+import GraphicsAnimation from "../components/GraphicsAnimation"
 
 export default class ClimbSystem extends System {
   constructor() {
@@ -97,18 +98,44 @@ export default class ClimbSystem extends System {
   ) {
     if (climber.wantsUp) {
       climbing.offset.y -= climber.config.climbSpeed * (this.dt / 1000)
-      if (climbing.isOffTheTop(extents)) return this.cancelClimbing(entity)
+      if (climbing.isOffTheTop(extents))
+        return this.cancelClimbing(entity, climber)
     } else if (climber.wantsDown) {
       climbing.offset.y += climber.config.climbSpeed * (this.dt / 1000)
-      if (climbing.isOffTheBottom(extents)) return this.cancelClimbing(entity)
+      if (climbing.isOffTheBottom(extents))
+        return this.cancelClimbing(entity, climber)
     }
 
     const { absoluteX, absoluteY } = climbing
     physicsBody.body.setStaticPosition(absoluteX, absoluteY)
     position.update(physicsBody.body.position)
+
+    const { climbAnimation } = climber.config
+    if (climbAnimation) {
+      const animation = this.engine.getComponentForEntity(
+        entity,
+        GraphicsAnimation,
+      )
+      if (animation) {
+        if (animation.animationId !== climbAnimation) {
+          climber.preClimbAnimation = animation.animationId
+        }
+        animation.play(climbAnimation)
+      }
+    }
   }
 
-  private cancelClimbing(entity: Entity) {
+  private cancelClimbing(entity: Entity, climber: Climber) {
     this.engine.removeComponentsFromEntityByType(entity, [Climbing])
+
+    if (climber.preClimbAnimation) {
+      const animation = this.engine.getComponentForEntity(
+        entity,
+        GraphicsAnimation,
+      )
+      if (animation) {
+        animation.play(climber.preClimbAnimation)
+      }
+    }
   }
 }
