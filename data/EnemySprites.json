@@ -99,6 +99,18 @@
   "frame": {"x":65,"y":27,"w":40,"h":39},
   "pivot": {"x":24,"y":26}
 },
+"enemy/spider1/climb.png": {
+  "frame": {"x":169,"y":32,"w":18,"h":18},
+  "pivot": {"x":9,"y":9}
+},
+"enemy/spider1/walk-1.png": {
+  "frame": {"x":151,"y":38,"w":18,"h":10},
+  "pivot": {"x":9,"y":5}
+},
+"enemy/spider1/walk-2.png": {
+  "frame": {"x":187,"y":38,"w":18,"h":10},
+  "pivot": {"x":9,"y":5}
+},
 "block/shootable/idle.png": {
   "frame": {"x":240,"y":32,"w":16,"h":16},
   "pivot": {"x":8,"y":8}
