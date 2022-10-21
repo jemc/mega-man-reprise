@@ -1,4 +1,5 @@
 import Aseprite from "ase-parser"
+import { AABB2 } from "glazejs/src/glaze/geom/AABB2"
 import { TileMapRenderer } from "glazejs/src/glaze/graphics/render/tile/TileMapRenderer"
 import { LayerToCoordTexture } from "glazejs/src/glaze/tmx/TMXMap"
 import TileMapLayer from "./TileMapLayer"
@@ -29,6 +30,21 @@ export default class TileMapLoader {
     tileset = new TileMapTileSet(this.ase, index)
     this.tilesets[index] = tileset
     return tileset
+  }
+
+  loadRooms(frameNumber: number = 0) {
+    const rooms: [string, AABB2][] = []
+    this.ase.slices.forEach((slice) => {
+      slice.keys.forEach((key) => {
+        if (key.frameNumber === frameNumber) {
+          rooms.push([
+            slice.name,
+            new AABB2(key.y, key.x + key.width, key.y + key.height, key.x),
+          ])
+        }
+      })
+    })
+    return rooms
   }
 
   loadLayerIntoRenderer(

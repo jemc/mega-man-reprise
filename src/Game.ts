@@ -1,5 +1,4 @@
 import { AABB2 } from "glaze/geom/AABB2"
-import { Camera } from "glaze/graphics/displaylist/Camera"
 import { DigitalInput } from "glaze/util/DigitalInput"
 import { DynamicTreeBroadphase } from "glaze/physics/collision/broadphase/DynamicTreeBroadphase"
 import { Entity } from "glazejs/src/glaze/ecs/Entity"
@@ -19,6 +18,8 @@ import { TileMapCollision } from "glazejs/src/glaze/physics/collision/broadphase
 import { TileMapRenderer } from "glaze/graphics/render/tile/TileMapRenderer"
 import { Vector2 } from "glaze/geom/Vector2"
 import Aseprite from "ase-parser"
+
+import { Camera } from "./core/camera/Camera"
 
 import HealthDisplayFactory from "./factories/HealthDisplayFactory"
 import LadderFactory from "./factories/LadderFactory"
@@ -159,10 +160,10 @@ export default class Game extends GlazeEngine {
 
     const camera = new Camera()
     camera.worldExtentsAABB = new AABB2(
-      GZE.tileSize * 2,
-      (aseTileMap.width - GZE.tileSize) * 2,
-      (aseTileMap.height - GZE.tileSize) * 2,
-      GZE.tileSize * 2,
+      0,
+      aseTileMap.width * 2,
+      aseTileMap.height * 2,
+      0,
     )
 
     this.renderSystem = new GraphicsRenderSystem(
@@ -184,6 +185,8 @@ export default class Game extends GlazeEngine {
     monkeyPatchTileMapRenderer(this.renderSystem.renderer.gl, tileMapRenderer)
     tileMap.loadLayerIntoRenderer("Foreground", tileMapRenderer, "Foreground")
     tileMap.loadLayerIntoRenderer("Background", tileMapRenderer, "Background")
+
+    camera.rooms = tileMap.loadRooms()
 
     const spriteRender = new SpriteRenderer()
     spriteRender.AddStage(this.renderSystem.stage)
