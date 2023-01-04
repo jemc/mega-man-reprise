@@ -114,5 +114,17 @@
 "block/shootable/idle.png": {
   "frame": {"x":240,"y":32,"w":16,"h":16},
   "pivot": {"x":8,"y":8}
+},
+"block/bouncy/idle.png": {
+  "frame": {"x":208,"y":48,"w":16,"h":16},
+  "pivot": {"x":8,"y":8}
+},
+"block/bouncy/wobble-1.png": {
+  "frame": {"x":224,"y":48,"w":16,"h":16},
+  "pivot": {"x":8,"y":8}
+},
+"block/bouncy/wobble-2.png": {
+  "frame": {"x":240,"y":48,"w":16,"h":16},
+  "pivot": {"x":8,"y":8}
 }
 }

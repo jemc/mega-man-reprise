@@ -1,0 +1,54 @@
+{
+"boss/bouncy/idle.png": {
+  "frame": {"x":0,"y":40,"w":28,"h":37},
+  "pivot": {"x":12,"y":23}
+},
+"boss/bouncy/shoot-high.png": {
+  "frame": {"x":0,"y":78,"w":33,"h":37},
+  "pivot": {"x":13,"y":23}
+},
+"boss/bouncy/shoot-mid.png": {
+  "frame": {"x":33,"y":78,"w":35,"h":37},
+  "pivot": {"x":12,"y":23}
+},
+"boss/bouncy/shoot-low.png": {
+  "frame": {"x":68,"y":78,"w":34,"h":37},
+  "pivot": {"x":12,"y":23}
+},
+"boss/bouncy/squat-1.png": {
+  "frame": {"x":28,"y":44,"w":29,"h":33},
+  "pivot": {"x":13,"y":19}
+},
+"boss/bouncy/squat-2.png": {
+  "frame": {"x":57,"y":48,"w":28,"h":29},
+  "pivot": {"x":14,"y":15}
+},
+"boss/bouncy/jump.png": {
+  "frame": {"x":49,"y":0,"w":28,"h":47},
+  "pivot": {"x":12,"y":23}
+},
+"power/bouncy/mid-1.png": {
+  "frame": {"x":0,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+},
+"power/bouncy/mid-2.png": {
+  "frame": {"x":8,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+},
+"power/bouncy/mid-3.png": {
+  "frame": {"x":16,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+},
+"power/bouncy/mid-4.png": {
+  "frame": {"x":24,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+},
+"power/bouncy/mid-5.png": {
+  "frame": {"x":32,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+},
+"power/bouncy/mid-6.png": {
+  "frame": {"x":40,"y":0,"w":7,"h":7},
+  "pivot": {"x":3.5,"y":3.5}
+}
+}

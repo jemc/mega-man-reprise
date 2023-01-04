@@ -84,10 +84,21 @@
   },
   "block-shootable": {
     "frames": [
-      { "id": "i", "name": "block/shootable/idle.png", "scale": { "x": -2, "y": 2 } }
+      { "id": "i", "name": "block/shootable/idle.png", "scale": { "x": 2, "y": 2 } }
     ],
     "animations": {
       "idle": { "frames": [0], "fps": 0, "looped": false }
+    }
+  },
+  "block-bouncy": {
+    "frames": [
+      { "id": "i", "name": "block/bouncy/idle.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "w1", "name": "block/bouncy/wobble-1.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "w2", "name": "block/bouncy/wobble-2.png", "scale": { "x": 2, "y": 2 } }
+    ],
+    "animations": {
+      "idle": { "frames": [0], "fps": 0, "looped": false },
+      "wobble": { "frames": [1, 0, 2, 0], "fps": 8, "looped": false }
     }
   }
 }

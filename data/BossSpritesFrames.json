@@ -1,0 +1,35 @@
+{
+  "boss-bouncy": {
+    "frames": [
+      { "id": "i", "name": "boss/bouncy/idle.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "fh", "name": "boss/bouncy/shoot-high.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "fm", "name": "boss/bouncy/shoot-mid.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "fl", "name": "boss/bouncy/shoot-low.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "s1", "name": "boss/bouncy/squat-1.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "s2", "name": "boss/bouncy/squat-2.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "j", "name": "boss/bouncy/jump.png", "scale": { "x": 2, "y": 2 } }
+    ],
+    "animations": {
+      "idle": { "frames": [0], "fps": 0, "looped": false },
+      "shootHigh": { "frames": [1], "fps": 0, "looped": false },
+      "shootMid": { "frames": [2], "fps": 0, "looped": false },
+      "shootLow": { "frames": [3], "fps": 0, "looped": false },
+      "squat1": { "frames": [4], "fps": 0, "looped": false },
+      "squat2": { "frames": [5], "fps": 0, "looped": false },
+      "jump": { "frames": [6], "fps": 0, "looped": false }
+    }
+  },
+  "power-bouncy": {
+    "frames": [
+      { "id": "mid-1", "name": "power/bouncy/mid-1.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "mid-2", "name": "power/bouncy/mid-2.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "mid-3", "name": "power/bouncy/mid-3.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "mid-4", "name": "power/bouncy/mid-4.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "mid-5", "name": "power/bouncy/mid-5.png", "scale": { "x": 2, "y": 2 } },
+      { "id": "mid-6", "name": "power/bouncy/mid-6.png", "scale": { "x": 2, "y": 2 } }
+    ],
+    "animations": {
+      "mid": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "looped": true }
+    }
+  }
+}
