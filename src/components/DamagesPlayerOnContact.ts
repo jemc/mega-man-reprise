@@ -1,6 +1,11 @@
-export default class DamagesPlayerOnContact {
+interface DamagesPlayerOnContactConfig {
   amount: number
-  constructor(amount: number) {
-    this.amount = amount
+  absorb?: boolean
+}
+
+export default class DamagesPlayerOnContact {
+  config: DamagesPlayerOnContactConfig
+  constructor(config: DamagesPlayerOnContactConfig) {
+    this.config = config
   }
 }

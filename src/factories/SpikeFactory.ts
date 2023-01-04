@@ -27,7 +27,7 @@ export default class SpikeFactory {
       new PhysicsBody(body),
       new Fixed(),
       new Active(),
-      new DamagesPlayerOnContact(Infinity),
+      new DamagesPlayerOnContact({ amount: Infinity }),
     ])
 
     return entity

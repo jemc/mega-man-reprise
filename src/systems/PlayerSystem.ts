@@ -129,6 +129,11 @@ export default class PlayerSystem extends System {
       physicsBody.body.material.friction = 0
     else physicsBody.body.material.friction = player.config.stopFriction
 
+    // When the player is jumping and stops ascending, the jump is over,
+    // and the player is just falling at this point.
+    if (player.isJumping && physicsBody.body.velocity.y >= 0)
+      player.stopJumping()
+
     // A jump can be initiated when starting from the ground.
     if (jumpStart && physicsBody.body.onGround) {
       // Holding down and pressing jump will start a slide instead of a jump.
@@ -145,6 +150,7 @@ export default class PlayerSystem extends System {
           player.isSliding && this.isPlayerUnderALowCeiling(position.coords)
         if (!slidingUnderALowCeiling) {
           physicsBody.body.addProportionalForce(new Vector2(0, -100))
+          player.startJumping(this.timestamp)
           player.stopSliding() // jumping can cancel a slide
         }
       }
@@ -214,7 +220,7 @@ export default class PlayerSystem extends System {
 
     // Not holding the jump button cancels any upward movement.
     // This allows the player to control the total jump height.
-    if (!jumpHold && physicsBody.body.velocity.y < 0)
+    if (!jumpHold && physicsBody.body.velocity.y < 0 && player.isJumping)
       physicsBody.body.velocity.y = 0
 
     // Holding the left or right arrow key applies a force in that direction,
@@ -255,6 +261,10 @@ export default class PlayerSystem extends System {
           position.direction.x < 0 ? xForceAmountSlide * -1 : xForceAmountSlide,
           0,
         ),
+      )
+    } else if (physicsBody.body.velocity.y !== 0) {
+      physicsBody.body.addProportionalForce(
+        new Vector2(-0.0005 * physicsBody.body.velocity.x, 0),
       )
     }
 

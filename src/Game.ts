@@ -63,6 +63,10 @@ const ENEMY_SPRITES_CONFIG = "data/EnemySprites.json"
 const ENEMY_SPRITES_DATA = "data/EnemySprites.png"
 const ENEMY_SPRITES_FRAMES_CONFIG = "data/EnemySpritesFrames.json"
 
+const BOSS_SPRITES_CONFIG = "data/BossSprites.json"
+const BOSS_SPRITES_DATA = "data/BossSprites.png"
+const BOSS_SPRITES_FRAMES_CONFIG = "data/BossSpritesFrames.json"
+
 const TEST_LEVEL_DATA = `data/levels/${
   URL_PARAMS.get("level") || "TestLevel"
 }.aseprite`
@@ -87,6 +91,9 @@ export default class Game extends GlazeEngine {
       ENEMY_SPRITES_CONFIG,
       ENEMY_SPRITES_DATA,
       ENEMY_SPRITES_FRAMES_CONFIG,
+      BOSS_SPRITES_CONFIG,
+      BOSS_SPRITES_DATA,
+      BOSS_SPRITES_FRAMES_CONFIG,
       TEST_LEVEL_DATA,
     ])
   }
@@ -229,6 +236,13 @@ export default class Game extends GlazeEngine {
       ENEMY_SPRITES_DATA,
       ENEMY_SPRITES_CONFIG,
       ENEMY_SPRITES_FRAMES_CONFIG,
+    )
+    loadSpriteSheet(
+      this.renderSystem,
+      this.assets,
+      BOSS_SPRITES_DATA,
+      BOSS_SPRITES_CONFIG,
+      BOSS_SPRITES_FRAMES_CONFIG,
     )
   }
 

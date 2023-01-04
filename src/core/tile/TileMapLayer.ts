@@ -50,7 +50,7 @@ export default class TileMapLayer {
 
     // Get the tileset index for that layer.
     const { tilesetIndex } = this.layer
-    if (!tilesetIndex)
+    if (tilesetIndex === undefined)
       throw new Error(`Aseprite ${layerName} layer is not a tilemap`)
     this.tilesetIndex = tilesetIndex
 

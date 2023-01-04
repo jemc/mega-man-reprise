@@ -58,6 +58,20 @@ export class Player {
     this.config = config
   }
 
+  startedJumpingAt?: number
+
+  get isJumping() {
+    return this.startedJumpingAt !== undefined
+  }
+
+  startJumping(timestamp: number) {
+    this.startedJumpingAt = timestamp
+  }
+
+  stopJumping() {
+    this.startedJumpingAt = undefined
+  }
+
   startedSlidingAt?: number
 
   get isSliding() {

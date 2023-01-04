@@ -70,6 +70,8 @@ export default class DamagesEnemyOnContactSystem extends System {
     // Try to send bullet damage. Will return false if the bullet is deflected.
     const didDamage = health.sendBulletDamage(damage.amount)
 
+    console.log("didDamage", didDamage, entity)
+
     if (didDamage) {
       // If the bullet did damage, the bullet is destroyed.
       this.engine.destroyEntity(entity)

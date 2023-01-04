@@ -44,7 +44,7 @@ export default function (engine: Engine, spawner: Entity, position: Position) {
       receiveDamageDurationMillis: 100,
       deathAction: createExplodeSimple,
     }),
-    new DamagesPlayerOnContact(10),
+    new DamagesPlayerOnContact({ amount: 10 }),
     new Climber({
       climbSpeed: 100,
       climbAnimation: "climb",

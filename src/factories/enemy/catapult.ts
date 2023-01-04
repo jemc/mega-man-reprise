@@ -43,7 +43,7 @@ export default function (engine: Engine, spawner: Entity, position: Position) {
       receiveDamageDurationMillis: 100,
       deathAction: createExplodeSimple,
     }),
-    new DamagesPlayerOnContact(15),
+    new DamagesPlayerOnContact({ amount: 15 }),
     new PlayerAware(),
     new FollowsPlayer({
       lookX: true,

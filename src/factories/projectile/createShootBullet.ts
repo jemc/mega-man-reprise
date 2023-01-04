@@ -48,7 +48,7 @@ export default function createShootBullet(
     new GraphicsAnimation("shot", "bullet"),
     new PhysicsBody(body, true),
     new PhysicsCollision(true, null as any, []),
-    new DamagesPlayerOnContact(damageAmount),
+    new DamagesPlayerOnContact({ amount: damageAmount }),
     new Moveable(),
     new Active(),
   ])

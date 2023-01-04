@@ -7,6 +7,7 @@ interface StatesConfig {
     animation?: string
     minDuration?: number
     maxDuration?: number
+    waitUntilSlowerThan?: number
     then?: string
     startAction?: (engine: Engine, entity: Entity, position: Position) => void
     deflectsBullets?: boolean

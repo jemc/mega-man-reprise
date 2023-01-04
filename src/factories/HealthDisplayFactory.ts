@@ -10,7 +10,7 @@ import SegmentedDisplay from "../components/SegmentedDisplay"
 import Health from "../components/Health"
 
 // Verified to match screenshots of the official games.
-const baseX = 24
+const baseX = 56
 const baseY = 44
 
 export default class HealthDisplayFactory {

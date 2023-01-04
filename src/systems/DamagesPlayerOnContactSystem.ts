@@ -29,7 +29,9 @@ export default class DamagesPlayerOnContactSystem extends System {
       const health = this.engine.getComponentForEntity(other?.entity, Health)
       if (!health) return
 
-      health.sendDamage(damage.amount)
+      health.sendDamage(damage.config.amount)
+
+      if (damage.config.absorb) this.engine.destroyEntity(entity)
     }
 
     this.callbacks.set(entity, callback)

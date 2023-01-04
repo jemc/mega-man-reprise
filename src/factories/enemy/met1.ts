@@ -43,24 +43,30 @@ export default function (engine: Engine, spawner: Entity, position: Position) {
       receiveDamageDurationMillis: 100,
       deathAction: createExplodeSimple,
     }),
-    new DamagesPlayerOnContact(10),
+    new DamagesPlayerOnContact({ amount: 10 }),
     new PlayerAware(),
     new FollowsPlayer({
       lookX: true,
       lookHysteresis: GZE.tileSize * 2,
     }),
     new States("idle", {
-      idle: { minDuration: 2000, deflectsBullets: true },
+      idle: { deflectsBullets: true },
       opening: { maxDuration: 300, then: "open" },
       open: { maxDuration: 500, then: "closing", startAction: shootAction },
-      closing: { maxDuration: 300, then: "idle" },
+      closing: { maxDuration: 300, then: "waitIdle" },
+      waitIdle: {
+        maxDuration: 2000,
+        animation: "idle",
+        then: "idle",
+        deflectsBullets: true,
+      },
     }),
     new ChangesStatesOnPlayerProximity({
       from: "idle",
       to: "opening",
       proximityX: GZE.tileSize * 9,
-      proximityY: GZE.tileSize * 4,
-      delay: 500,
+      proximityY: GZE.tileSize * 5,
+      delay: 250,
     }),
   ])
 

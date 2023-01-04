@@ -5,6 +5,8 @@ import { Active } from "glazejs/src/glaze/core/components/Active"
 
 import States from "../components/States"
 import GraphicsAnimation from "../components/GraphicsAnimation"
+import { Engine } from "glazejs/src/glaze/ecs/Engine"
+import { PhysicsBody } from "glazejs/src/glaze/physics/components/PhysicsBody"
 
 export default class StatesGraphicsSystem extends System {
   constructor() {
@@ -19,9 +21,17 @@ export default class StatesGraphicsSystem extends System {
     active: Active,
   ) {
     const timeSoFar = states.timeSoFar + this.dt
-    const { maxDuration, then } = states.config[states.current]!
+    const { maxDuration, waitUntilSlowerThan, then } =
+      states.config[states.current]!
 
-    if (maxDuration && then && timeSoFar >= maxDuration) {
+    if (
+      maxDuration &&
+      then &&
+      timeSoFar >= maxDuration &&
+      (waitUntilSlowerThan
+        ? isSlowerThan(waitUntilSlowerThan, this.engine, entity)
+        : true)
+    ) {
       if (then === "destroy") {
         this.engine.destroyEntity(entity)
       } else {
@@ -36,4 +46,18 @@ export default class StatesGraphicsSystem extends System {
 
     animation.play(states.currentAnimation)
   }
+}
+
+function isSlowerThan(threshold: number, engine: Engine, entity: Entity) {
+  const physicsBody = engine.getComponentForEntity(entity, PhysicsBody)
+  if (!physicsBody) return false
+
+  return (
+    Math.abs(
+      physicsBody.body.position.x - physicsBody.body.previousPosition.x,
+    ) < threshold &&
+    Math.abs(
+      physicsBody.body.position.y - physicsBody.body.previousPosition.y,
+    ) < threshold
+  )
 }

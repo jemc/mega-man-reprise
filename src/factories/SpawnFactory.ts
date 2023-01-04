@@ -10,6 +10,8 @@ import enemyTurret2 from "./enemy/turret2"
 import enemyCatapult from "./enemy/catapult"
 import enemySpider1 from "./enemy/spider1"
 import blockShootable from "./block/shootable"
+import blockBouncy from "./block/bouncy"
+import bossBouncy from "./boss/bouncy"
 
 export default class SpawnFactory {
   static create(engine: Engine, kind: string, position: Position): Entity {
@@ -26,6 +28,10 @@ export default class SpawnFactory {
         return createSpawn(engine, position, enemySpider1)
       case "block-shootable":
         return blockShootable(engine, 0, position)
+      case "block-bouncy":
+        return blockBouncy(engine, 0, position)
+      case "boss-bouncy":
+        return createSpawn(engine, position, bossBouncy)
       default:
         throw new Error(`Unknown spawn kind: ${kind}`)
     }
